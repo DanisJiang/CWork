@@ -42,8 +42,8 @@ typedef struct ListNode {
 *@return: нч
 *@others:
 */
-void createBook(pBook book, char ID[], char name[], char author[], int count, double price,
-	char date[], TYPE type, char publisher[]) {
+void createBook(pBook book, char ID[MAX], char name[MAX], char author[MAX], int count, double price,
+	char date[MAX], TYPE type, char publisher[MAX]) {
 	strcpy(book->name, name);
 	strcpy(book->ID, ID);
 	strcpy(book->author, author);
