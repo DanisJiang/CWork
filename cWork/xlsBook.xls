@@ -1,3 +1,6 @@
-1	2	3	4	5	6	7	8
+书名	作者	编号	数量	出版商	发行日期	价格	类型
 abc	Danis	1	100	Danis	2018	99	1
 cde	Danis	2	10	Danis	20222	22	1
+edd	Danis	3	10	Danis	10002	22	1
+123	Danis	4	10	Danis	2017	233	1
+hhh	Danis	5	10	Danis	8102	33	1

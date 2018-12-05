@@ -7,7 +7,7 @@
 
 typedef struct Info {
 	char ID[MAX];
-	int index;
+	//int index;
 	bool available;
 }*pInfo, Info;
 
@@ -94,7 +94,7 @@ void printBook(pBook book) {
 *@return: 创建的图书链表的头指针
 *@others:
 */
-PNode Create() {
+PNode CreateNew() {
 	char ID[MAX], publisher[MAX], author[MAX], name[MAX], date[MAX];
 	int len, count;
 	double price;

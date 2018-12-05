@@ -177,7 +177,8 @@ bool returnBook(Person person, char ID[MAX]) {
 				if (strcmp(book->info[i].ID,ID)==0)
 				{
 					book->info[i].available = true;
-					strcpy(book->info[i].ID, "\0");
+					//strcpy(book->info[i].ID, "\0");
+					book->info[i].ID[0] = '\0';
 				}
 			}
 			book->left++;

@@ -6,6 +6,7 @@
 #include "GLOBAL.h"
 #include "List.h"
 #include "User.h"
+#include"File.h"
 int state = LOGOUT; //µ±Ç°×´Ì¬
 
 
@@ -212,7 +213,7 @@ void loginInit(char* ID,PNode List) {
 *@others:
 */
 void Init() {
-	PNode head = Create();
+	PNode head = intializeProgram();
 	Traverse(head);
 	int mode;
 	char ID[MAX];
