@@ -16,7 +16,7 @@ PNode initializeBook()
 	char ID[MAX], publisher[MAX], author[MAX], name[MAX], date[MAX];
 	int  count;
 	double price;
-	TYPE type;  // 图书种类
+	int type;  // 图书种类
 	FILE *xlsBook;
 	xlsBook = fopen("xlsBook.xls", "r");
 	PNode head = (PNode)malloc(sizeof(Node));
@@ -34,7 +34,7 @@ PNode initializeBook()
 			printf("分配失败!\n");
 			exit(-1);
 		}
-		pNew->book = (pBook)malloc(sizeof(pBook)); //创建书本
+		pNew->book = (pBook)malloc(sizeof(Book)); //创建书本
 		fscanf(xlsBook, "%s\t%s\t%s\t%d\t%s\t%s\t%lf\t%d\n", name, author, ID, &count, publisher, date, &price, &type);
 		createBook(pNew->book, ID, name, author, count, price, date, type, publisher);
 		printf("添加成功!\n");

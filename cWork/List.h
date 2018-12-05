@@ -23,7 +23,7 @@ typedef struct Book {
 	int left;		//剩余数量
 	double price;	//图书单价
 	char date[MAX];	//出版日期
-	TYPE type;   //图书分类
+	int type;   //图书分类
 	char publisher[MAX];  //出版商
 	int total;  //总共借出的次数
 	Info info[MAXLENGTH];  //维护每一本图书借给了谁
@@ -42,8 +42,8 @@ typedef struct ListNode {
 *@return: 无
 *@others:
 */
-void createBook(pBook book, char ID[MAX], char name[MAX], char author[MAX], int count, double price,
-	char date[MAX], TYPE type, char publisher[MAX]) {
+void createBook(pBook book, char ID[], char name[], char author[], int count, double price,
+	char date[], int type, char publisher[]) {
 	strcpy(book->name, name);
 	strcpy(book->ID, ID);
 	strcpy(book->author, author);
@@ -53,6 +53,7 @@ void createBook(pBook book, char ID[MAX], char name[MAX], char author[MAX], int 
 	book->price = price;
 	book->left = count;
 	book->total = 0;
+	book->type = type;
 	for (int i = 0; i < MAXLENGTH; i++) {
 		book->info[i].available=true;
 	}
