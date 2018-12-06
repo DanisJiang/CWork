@@ -70,7 +70,7 @@ void printBook(pBook book) {
 	printf("编号:%8s\n", book->ID);
 	printf("书名:%8s\n", book->name);
 	printf("作者:%8s\n", book->author);
-	printf("价格:%8lf\n", book->price);
+	printf("价格:%8g\n", book->price);
 	printf("出版商:%8s\n", book->publisher);
 	printf("总量:%8d\n", book->count);
 	printf("库存:%8d\n", book->left);
@@ -92,7 +92,7 @@ void printBook(pBook book) {
 *@method: 创建图书链表并初始化
 *@param: 无
 *@return: 创建的图书链表的头指针
-*@others:
+*@others:现在有问题，可能需要完善
 */
 PNode CreateNew() {
 	char ID[MAX], publisher[MAX], author[MAX], name[MAX], date[MAX];
@@ -115,7 +115,7 @@ PNode CreateNew() {
 			printf("分配失败!\n");
 			exit(-1);
 		}
-		pNew->book = (pBook)malloc(sizeof(pBook)); //创建书本
+		pNew->book = (pBook)malloc(sizeof(Book)); //创建书本
 		printf("请输入第%d本书的书名", i);
 		scanf("%s", name);
 		printf("请输入第%d本书的作者", i);

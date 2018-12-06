@@ -258,6 +258,7 @@ void Init() {
 					printAuthor();
 					break;
 				case 5: //ÍË³ö³ÌÐò
+					//closeProgram(head);
 					state = EXIT;
 					break;
 				default: 
