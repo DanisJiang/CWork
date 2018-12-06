@@ -6,7 +6,7 @@
 #include "GLOBAL.h"
 #include "List.h"
 #include "User.h"
-#include"File.h"
+#include "File.h"
 int state = LOGOUT; //当前状态
 
 
@@ -43,7 +43,7 @@ void initPrint() {
 	printf("2.登录(学生通道)\n");
 	printf("3.登录(教师通道)\n");
 	printf("4.关于作者\n");
-	printf("5.登出.\n");
+	printf("5.退出.\n");
 	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
 }
 
@@ -85,6 +85,7 @@ void printAuthor() {
 */
 void loginInitTeacher(char* ID,PNode List) {
 	int i = getIndex(ID,"tea");
+	Person person = persons[i];
 	Teacher teacher = teachers[i];
 	printf("教师%s登陆成功!\n", teachers[i].name);
 	state = LOGINTEA;
@@ -96,7 +97,11 @@ void loginInitTeacher(char* ID,PNode List) {
 		switch (mode)
 		{
 		case 1: {  //查询图书
-			Traverse(List);
+			char ID[MAX];
+			printf("请输入书的编号:");
+			scanf("%s", ID);
+			pBook book = SearchBook(List, ID);
+			printBook(book);
 			break;
 		}
 		case 2: {  //添加图书
@@ -112,12 +117,15 @@ void loginInitTeacher(char* ID,PNode List) {
 		}	
 		case 4: {	//查看学生信息
 			char ID[MAX];
+			printf("请输入学生ID\n");
+			scanf("%s", ID);
 			int i = getIndex(ID, "stu");
-			printPerson(i);
+			Person person = persons[i];
+			printPerson(&person);
 			break;
 		}
 		case 5: {  //查看教师信息
-			printTeacher(i);
+			printTeacher(&teacher);
 			break;
 		}
 		case 6: {	//登出系统
@@ -171,7 +179,7 @@ void loginInit(char* ID,PNode List) {
 				scanf("%d", &flag);
 				if (flag == 1)
 				{
-					Borrow(i, book);
+					Borrow(&person, book);
 				}
 			}
 			else {
@@ -183,8 +191,8 @@ void loginInit(char* ID,PNode List) {
 		{
 			char id[MAX];
 			printf("请输入你要归还的图书编号\n");
-			scanf("%s\n", id);
-			if (returnBook(person, id))
+			scanf("%s", id);
+			if (returnBook(&person, id))
 				printf("还书成功\n");
 			else {
 				printf("还书失败!\n");
@@ -192,7 +200,7 @@ void loginInit(char* ID,PNode List) {
 			break;
 		}
 		case 4:		//查看个人资料
-			printPerson(i);
+			printPerson(&person);
 			break;
 		case 5:		//登出系统
 			printf("登出\n");
@@ -213,7 +221,7 @@ void loginInit(char* ID,PNode List) {
 *@others:
 */
 void Init() {
-	PNode head = intializeProgram();
+	PNode head = initializeBook();
 	Traverse(head);
 	int mode;
 	char ID[MAX];
@@ -258,7 +266,7 @@ void Init() {
 					printAuthor();
 					break;
 				case 5: //退出程序
-					//closeProgram(head);
+					closeProgram(head);
 					state = EXIT;
 					break;
 				default: 

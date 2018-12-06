@@ -20,6 +20,11 @@ PNode initializeBook()
 	int type;  // 图书种类
 	FILE *xlsBook;
 	xlsBook = fopen("xlsBook.xls", "r");
+	if (NULL == xlsBook)
+	{
+		printf("文件读取失败\n");
+		exit(0);
+	}
 	PNode head = (PNode)malloc(sizeof(Node));
 	if (head == NULL) {
 		printf("分配失败!\n");
@@ -40,10 +45,7 @@ PNode initializeBook()
 		pNew->book = (pBook)malloc(sizeof(Book)); //创建书本
 		fscanf(xlsBook, "%s\t%s\t%s\t%d\t%s\t%s\t%lf\t%d\t%d\t%d\t", name, author,
 			ID, &count, publisher, date, &price, &type,&pNew->book->left,&pNew->book->total);
-		int temp[MAX];
-		for (int j = 0; j < MAX; j++) {
-			temp[j] = (int)pNew->book->info[j].available;
-		}
+		int temp[MAXLENGTH];
 		fscanf(xlsBook, "%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\n"
 			, &temp[0], &pNew->book->info[0].ID
 			, &temp[1], &pNew->book->info[1].ID
@@ -56,8 +58,23 @@ PNode initializeBook()
 			, &temp[8], &pNew->book->info[8].ID
 			, &temp[9], &pNew->book->info[9].ID
 		);
-		createBook(pNew->book, ID, name, author, count, price, date, type, publisher);
-		printf("第%d添加成功!\n",i);
+		printf("%d %s %d %s %d %s %d %s %d %s %d %s %d %s %d %s %d %s %d %s\n"
+			, temp[0], pNew->book->info[0].ID
+			, temp[1], pNew->book->info[1].ID
+			, temp[2], pNew->book->info[2].ID
+			, temp[3], pNew->book->info[3].ID
+			, temp[4], pNew->book->info[4].ID
+			, temp[5], pNew->book->info[5].ID
+			, temp[6], pNew->book->info[6].ID
+			, temp[7], pNew->book->info[7].ID
+			, temp[8], pNew->book->info[8].ID
+			, temp[9], pNew->book->info[9].ID);
+		for (int j = 0; j < MAXLENGTH; j++) {
+			pNew->book->info[j].available =(TYPE)temp[j] ;
+		}
+		printf("%s %s", name, author);
+		createBook(pNew->book, ID, name, author, count, price, date, (TYPE)type, publisher);
+		printf("第%d本书添加成功!\n",i);
 		tail->next = pNew;
 		pNew->next = NULL;
 		tail = pNew;
@@ -78,23 +95,29 @@ PNode initializeBook()
 void saveBook(PNode head)
 {
 	FILE *xlsBook;
-	xlsBook = fopen("xlsBook.xls", "w");
-	fprintf(xlsBook, "书名\t作者\t编号\t数量\t出版商\t发行日期\t价格\t类型\t剩余数量\t");
-	fprintf(xlsBook,"总共借出次数\t书1状态\t书1ID\t书2状态\t"
-		, "书2ID\t书3状态\t书3ID\t书4状态\t");
-	fprintf(xlsBook, "书4ID\t书5状态\t书5ID\t书6状态\t书6ID\t书7状态\t书7ID\t书8状态\t");
-	fprintf(xlsBook, "书8ID\t书9状态\t书9ID\t书10状态\t书10ID\n");  // 初始化表格文件
+	remove("xlsBook.csv");
+	xlsBook = fopen("xlsBook.csv", "w");
+	if (NULL == xlsBook)
+	{
+		printf("文件读取失败\n");
+		exit(0);
+	}
+	fprintf(xlsBook, "书名,作者,编号,数量,出版商,发行日期,价格,类型,剩余数量,");
+	fprintf(xlsBook, "总共借出次数,书1状态,书1ID,书2状态,");
+	fprintf(xlsBook, "书2ID,书3状态,书3ID,书4状态,");
+	fprintf(xlsBook, "书4ID,书5状态,书5ID,书6状态,书6ID,书7状态,书7ID,书8状态,");
+	fprintf(xlsBook, "书8ID,书9状态,书9ID,书10状态,书10ID\n");  // 初始化表格文件
 	PNode p = head->next;
 	while (p != NULL)
 	{
-		fprintf(xlsBook, "%s\t%s\t%s\t%d\t%s\t%s\t%lf\t%d\t%d\t%d\t", p->book->name, p->book->author,
+		fprintf(xlsBook, "%s,%s,%s,%d,%s,%s,%lf,%d,%d,%d,", p->book->name, p->book->author,
 			p->book->ID, p->book->count, p->book->publisher, 
 			p->book->date, p->book->price, p->book->type, p->book->left, p->book->total);
 		int temp[MAX];
 		for (int j = 0; j < MAX; j++) {
 			temp[j] = (int)p->book->info[j].available;
 		}
-		fscanf(xlsBook, "%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\n"
+		fscanf(xlsBook, "%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s\n"
 			, &temp[0], p->book->info[0].ID
 			, &temp[1], p->book->info[1].ID
 			, &temp[2], p->book->info[2].ID
@@ -108,10 +131,10 @@ void saveBook(PNode head)
 		);
 		p = p->next;
 
-		fclose(xlsBook);
+		
 	}
 
-
+	fclose(xlsBook);
 }
 
 /*
@@ -125,7 +148,7 @@ PNode intializeProgram()
 	PNode bookHead;
 	if (_access("xlsBook.xls", 0))  // 未查找到文件
 	{
-		bookHead = CreateNew();
+		bookHead = Create();
 	}
 	else  // 查找到文件，录入
 	{

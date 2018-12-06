@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include<malloc.h>
 #include<stdio.h>
 #include <string.h>
@@ -7,43 +7,43 @@
 
 typedef struct Info {
 	char ID[MAX];
-	//int index;
+	int index;
 	bool available;
 }*pInfo, Info;
 
 typedef struct BookTotal {
 
 }BookTotal, *pBookTotal;
-//Í¼ÊéĞÅÏ¢
+//å›¾ä¹¦ä¿¡æ¯
 typedef struct Book {
-	char ID[MAX];	//±àºÅ
-	char name[MAX];  //Í¼ÊéÃû
-	char author[MAX];	//×÷Õß
-	int count;		//×Ü¿â´æ
-	int left;		//Ê£ÓàÊıÁ¿
-	double price;	//Í¼Êéµ¥¼Û
-	char date[MAX];	//³ö°æÈÕÆÚ
-	int type;   //Í¼Êé·ÖÀà
-	char publisher[MAX];  //³ö°æÉÌ
-	int total;  //×Ü¹²½è³öµÄ´ÎÊı
-	Info info[MAXLENGTH];  //Î¬»¤Ã¿Ò»±¾Í¼Êé½è¸øÁËË­
+	char ID[MAX];	//ç¼–å·
+	char name[MAX];  //å›¾ä¹¦å
+	char author[MAX];	//ä½œè€…
+	int count;		//æ€»åº“å­˜
+	int left;		//å‰©ä½™æ•°é‡
+	double price;	//å›¾ä¹¦å•ä»·
+	char date[MAX];	//å‡ºç‰ˆæ—¥æœŸ
+	TYPE type;   //å›¾ä¹¦åˆ†ç±»
+	char publisher[MAX];  //å‡ºç‰ˆå•†
+	int total;  //æ€»å…±å€Ÿå‡ºçš„æ¬¡æ•°
+	Info info[MAXLENGTH];  //ç»´æŠ¤æ¯ä¸€æœ¬å›¾ä¹¦å€Ÿç»™äº†è°
 }Book, *pBook;
 
-//Í¼ÊéÁ´±í
+//å›¾ä¹¦é“¾è¡¨
 typedef struct ListNode {
-	pBook book;  //Í¼ÊéĞÅÏ¢
+	pBook book;  //å›¾ä¹¦ä¿¡æ¯
 	struct ListNode* next;
 }Node, *PNode;
 
 
 /*
-*@method: Ìí¼ÓÍ¼Êéº¯Êı
+*@method: æ·»åŠ å›¾ä¹¦å‡½æ•°
 *@param:
-*@return: ÎŞ
+*@return: æ— 
 *@others:
 */
-void createBook(pBook book, char ID[], char name[], char author[], int count, double price,
-	char date[], int type, char publisher[]) {
+void createBook(pBook book, char ID[MAX], char name[MAX], char author[MAX], int count, double price,
+	char date[], TYPE type, char publisher[]) {
 	strcpy(book->name, name);
 	strcpy(book->ID, ID);
 	strcpy(book->author, author);
@@ -53,87 +53,93 @@ void createBook(pBook book, char ID[], char name[], char author[], int count, do
 	book->price = price;
 	book->left = count;
 	book->total = 0;
-	book->type = type;
 	for (int i = 0; i < MAXLENGTH; i++) {
 		book->info[i].available=true;
 	}
 }
 /*
-*@method: ´òÓ¡Í¼Êéº¯Êı
-*@param: book:´ı´òÓ¡µÄÍ¼Êé
-*@return: ÎŞ
+*@method: æ‰“å°å›¾ä¹¦å‡½æ•°
+*@param: book:å¾…æ‰“å°çš„å›¾ä¹¦
+*@return: æ— 
 *@others:
 */
 void printBook(pBook book) {
+	if (NULL == book) {
+		printf("\n-------------------------------------------\n");
+		printf("æ²¡æœ‰è¿™æœ¬ä¹¦ï¼ï¼ï¼\n");
+		printf("(ï¼›â€²âŒ’`)  (ï¼›â€²âŒ’`)  (ï¼›â€²âŒ’`)\n");
+		printf("-------------------------------------------\n");
+		return;
+	}
 	int t = book->count - book->left;
 	printf("-------------------------------------------\n");
-	printf("±àºÅ:%8s\n", book->ID);
-	printf("ÊéÃû:%8s\n", book->name);
-	printf("×÷Õß:%8s\n", book->author);
-	printf("¼Û¸ñ:%8g\n", book->price);
-	printf("³ö°æÉÌ:%8s\n", book->publisher);
-	printf("×ÜÁ¿:%8d\n", book->count);
-	printf("¿â´æ:%8d\n", book->left);
-	printf("¸ÃÊéÒÑ½è³ö%d´Î\n", book->total);
+	printf("ç¼–å·:%8s\n", book->ID);
+	printf("ä¹¦å:%8s\n", book->name);
+	printf("ä½œè€…:%8s\n", book->author);
+	printf("ä»·æ ¼:%8g\n", book->price);
+	printf("å‡ºç‰ˆå•†:%8s\n", book->publisher);
+	printf("æ€»é‡:%8d\n", book->count);
+	printf("åº“å­˜:%8d\n", book->left);
+	printf("è¯¥ä¹¦å·²å€Ÿå‡º%dæ¬¡\n", book->total);
 	for (int i = 0; i <t; i++) {
 		if (book->info[i].available==false) {
-			printf("µÚ%d±¾Êé½è¸øÁËIDÎª%sµÄÍ¬Ñ§\n", i + 1, book->info[i].ID);
+			printf("ç¬¬%dæœ¬ä¹¦å€Ÿç»™äº†IDä¸º%sçš„åŒå­¦\n", i + 1, book->info[i].ID);
 		}
 	}
 	if (book->left > 0) {
-		printf("¿É½èÔÄ\n");
+		printf("å¯å€Ÿé˜…\n");
 	}
 	else {
-		printf("ÒÑ½è³ö\n");
+		printf("å·²å€Ÿå‡º\n");
 	}
 	printf("-------------------------------------------\n");
 }
 /*
-*@method: ´´½¨Í¼ÊéÁ´±í²¢³õÊ¼»¯
-*@param: ÎŞ
-*@return: ´´½¨µÄÍ¼ÊéÁ´±íµÄÍ·Ö¸Õë
-*@others:ÏÖÔÚÓĞÎÊÌâ£¬¿ÉÄÜĞèÒªÍêÉÆ
+*@method: åˆ›å»ºå›¾ä¹¦é“¾è¡¨å¹¶åˆå§‹åŒ–
+*@param: æ— 
+*@return: åˆ›å»ºçš„å›¾ä¹¦é“¾è¡¨çš„å¤´æŒ‡é’ˆ
+*@others:
 */
-PNode CreateNew() {
+PNode Create() {
 	char ID[MAX], publisher[MAX], author[MAX], name[MAX], date[MAX];
 	int len, count;
 	double price;
 	TYPE type;
-	printf("ÇëÊäÈë³õÊ¼µÄÊé±¾:");
+	printf("è¯·è¾“å…¥åˆå§‹çš„ä¹¦æœ¬:");
 	scanf("%d", &len);
-	PNode head = (PNode)malloc(sizeof(Node));
+	PNode head = (PNode)calloc(1,sizeof(Node));
 	if (head == NULL) {
-		printf("·ÖÅäÊ§°Ü!\n");
+		printf("åˆ†é…å¤±è´¥!\n");
 		exit(-1);
 	}
 	PNode tail = head;
 	tail->next = NULL;
 	for (int i = 1; i <= len; i++) {
-		PNode pNew = (PNode)malloc(sizeof(Node));
+		PNode pNew = (PNode)calloc(1,sizeof(Node));
 		if (pNew == NULL)
 		{
-			printf("·ÖÅäÊ§°Ü!\n");
+			printf("åˆ†é…å¤±è´¥!\n");
 			exit(-1);
 		}
-		pNew->book = (pBook)malloc(sizeof(Book)); //´´½¨Êé±¾
-		printf("ÇëÊäÈëµÚ%d±¾ÊéµÄÊéÃû", i);
+		pNew->book = (pBook)calloc(1,sizeof(Book)); //åˆ›å»ºä¹¦æœ¬
+		printf("è¯·è¾“å…¥ç¬¬%dæœ¬ä¹¦çš„ä¹¦å", i);
 		scanf("%s", name);
-		printf("ÇëÊäÈëµÚ%d±¾ÊéµÄ×÷Õß", i);
+		printf("è¯·è¾“å…¥ç¬¬%dæœ¬ä¹¦çš„ä½œè€…", i);
 		scanf("%s", author);
-		printf("ÇëÊäÈëµÚ%d±¾ÊéµÄ±àºÅ", i);
+		printf("è¯·è¾“å…¥ç¬¬%dæœ¬ä¹¦çš„ç¼–å·", i);
 		scanf("%s", ID);
-		printf("ÇëÊäÈëµÚ%d±¾ÊéµÄÊıÁ¿", i);
+		printf("è¯·è¾“å…¥ç¬¬%dæœ¬ä¹¦çš„æ•°é‡", i);
 		scanf("%d", &count);
-		printf("ÇëÊäÈëµÚ%d±¾Êé³ö°æÉÌ", i);
+		printf("è¯·è¾“å…¥ç¬¬%dæœ¬ä¹¦å‡ºç‰ˆå•†", i);
 		scanf("%s", publisher);
-		printf("ÇëÊäÈëµÚ%d±¾Êé·¢ĞĞÈÕÆÚ", i);
+		printf("è¯·è¾“å…¥ç¬¬%dæœ¬ä¹¦å‘è¡Œæ—¥æœŸ", i);
 		scanf("%s", date);
-		printf("ÇëÊäÈëµÚ%d±¾Êé¼Û¸ñ", i);
+		printf("è¯·è¾“å…¥ç¬¬%dæœ¬ä¹¦ä»·æ ¼", i);
 		scanf("%lf", &price);
-		printf("ÇëÊäÈëµÚ%d±¾ÊéÀàĞÍ", i);
+		printf("è¯·è¾“å…¥ç¬¬%dæœ¬ä¹¦ç±»å‹", i);
 		scanf("%d", &type);
 		createBook(pNew->book, ID, name, author, count, price, date, type, publisher);
-		printf("µÚ%d±¾ÊéÌí¼Ó³É¹¦!\n", i);
+		printf("ç¬¬%dæœ¬ä¹¦æ·»åŠ æˆåŠŸ!\n", i);
 		tail->next = pNew;
 		pNew->next = NULL;
 		tail = pNew;
@@ -141,29 +147,29 @@ PNode CreateNew() {
 	return head;
 }
 /*
-*@method: ±éÀúÍ¼ÊéÁ´±í
-*@param: List£º´ı±éÀúµÄÁ´±í
-*@return: ÎŞ
+*@method: éå†å›¾ä¹¦é“¾è¡¨
+*@param: Listï¼šå¾…éå†çš„é“¾è¡¨
+*@return: æ— 
 *@others:
 */
 void Traverse(PNode List) {
 	PNode p = List->next;
 	int i = 1;
 	if (p == NULL)
-		printf("µ±Ç°Ä¿Â¼Îª¿Õ\n");
+		printf("å½“å‰ç›®å½•ä¸ºç©º\n");
 	while (p != NULL)
 	{
-		printf(">>>>>>>>>>>>>µÚ%d±¾Êé<<<<<<<<<<<<\n", i);
+		printf(">>>>>>>>>>>>>ç¬¬%dæœ¬ä¹¦<<<<<<<<<<<<\n", i);
 		printBook(p->book);
 		p = p->next;
 		i++;
 	}
 }
 /*
-*@method: ²åÈëÍ¼Êé
-*@param: List:´ø²åÈëµÄÁ´±í;
+*@method: æ’å…¥å›¾ä¹¦
+*@param: List:å¸¦æ’å…¥çš„é“¾è¡¨;
 *@return:void
-*@others: ĞŞ¸ÄÎªÎ²²å
+*@others: ä¿®æ”¹ä¸ºå°¾æ’
 */
 void Insert(PNode List) {
 	char ID[MAX], publisher[MAX], author[MAX], name[MAX], date[MAX];
@@ -172,60 +178,60 @@ void Insert(PNode List) {
 	TYPE type;
 	int position = 0;
 	PNode p = List;
-	while (p != NULL)
+	while (p->next != NULL)
 	{
 		p = p->next;
 	}
 	PNode tmp = (PNode)malloc(sizeof(PNode));
 	if (tmp == NULL) {
-		printf("·ÖÅäÊ§°Ü!\n");
+		printf("åˆ†é…å¤±è´¥!\n");
 		exit(-1);
 	}
-	//²åÈë½Úµã
-	tmp->book = (pBook)malloc(sizeof(pBook));
-	printf("ÇëÊäÈëÊéÃû");
+	//æ’å…¥èŠ‚ç‚¹
+	tmp->book = (pBook)malloc(sizeof(Book));
+	printf("è¯·è¾“å…¥ä¹¦å");
 	scanf("%s", name);
-	printf("ÇëÊäÈëÊéµÄ×÷Õß");
+	printf("è¯·è¾“å…¥ä¹¦çš„ä½œè€…");
 	scanf("%s", author);
-	printf("ÇëÊäÈëÊéµÄ±àºÅ");
+	printf("è¯·è¾“å…¥ä¹¦çš„ç¼–å·");
 	scanf("%s", ID);
-	printf("ÇëÊäÈëÊéµÄÊıÁ¿");
+	printf("è¯·è¾“å…¥ä¹¦çš„æ•°é‡");
 	scanf("%d", &count);
-	printf("ÇëÊäÈëÊé³ö°æÉÌ");
+	printf("è¯·è¾“å…¥ä¹¦å‡ºç‰ˆå•†");
 	scanf("%s", publisher);
-	printf("ÇëÊäÈëÊé·¢ĞĞÈÕÆÚ");
+	printf("è¯·è¾“å…¥ä¹¦å‘è¡Œæ—¥æœŸ");
 	scanf("%s", date);
-	printf("ÇëÊäÈëÊé¼Û¸ñ");
+	printf("è¯·è¾“å…¥ä¹¦ä»·æ ¼");
 	scanf("%lf", &price);
-	printf("ÇëÊäÈëÊéÀàĞÍ");
+	printf("è¯·è¾“å…¥ä¹¦ç±»å‹");
 	scanf("%d", &type);
-	createBook(tmp->book, ID, name, author, count, price, date, type, publisher);;
+	createBook(tmp->book, ID, name, author, count, price, date, type, publisher);
 	tmp->next = p->next;
 	p->next = tmp;
-	printf("Í¼ÊéÌí¼Ó³É¹¦!\n");
+	printf("å›¾ä¹¦æ·»åŠ æˆåŠŸ!\n");
 }
 /*
-*@method: É¾³ıÖ¸¶¨Î»ÖÃµÄÍ¼Êé
-*@param: List:´ıÉ¾³ıµÄÍ¼ÊéÁ´±í;ID: ´ıÉ¾³ıµÄÍ¼ÊéID±àºÅ
+*@method: åˆ é™¤æŒ‡å®šä½ç½®çš„å›¾ä¹¦
+*@param: List:å¾…åˆ é™¤çš„å›¾ä¹¦é“¾è¡¨;ID: å¾…åˆ é™¤çš„å›¾ä¹¦IDç¼–å·
 *@return: Void
-*@others:  ĞŞ¸ÄÎª¸ù¾İIDÉ¾³ıÍ¼Êé
+*@others:  ä¿®æ”¹ä¸ºæ ¹æ®IDåˆ é™¤å›¾ä¹¦
 */
 void Delete(PNode List,char* ID) {
 	PNode p = List;
 	while (p != NULL && strcmp(p->book->ID,ID)!=0) {
 		p = p->next;
 	}
-	//´ıÉ¾³ı½Úµã
+	//å¾…åˆ é™¤èŠ‚ç‚¹
 	PNode tmp = p->next;
 	p->next = tmp->next;
 	free(tmp);
 	tmp = NULL;
-	printf("Í¼ÊéÉ¾³ı³É¹¦!\n");
+	printf("å›¾ä¹¦åˆ é™¤æˆåŠŸ!\n");
 }
 /*
-*@method: Çå¿ÕÍ¼ÊéÁ´±í
-*@param: ´ıÇå¿ÕµÄÁ´±í
-*@return: ÎŞ
+*@method: æ¸…ç©ºå›¾ä¹¦é“¾è¡¨
+*@param: å¾…æ¸…ç©ºçš„é“¾è¡¨
+*@return: æ— 
 *@others:
 */
 void Clear(PNode List) {
@@ -235,12 +241,12 @@ void Clear(PNode List) {
 		free(p);
 		p = tmp;
 	}
-	printf("Í¼ÊéÇåÀíÍê³É\n");
+	printf("å›¾ä¹¦æ¸…ç†å®Œæˆ\n");
 }
 /*
-*@method: ËÑË÷Í¼Êéº¯Êı
-*@param: List:´ıËÑË÷µÄÁ´±í;ID:´ıËÑË÷Í¼ÊéµÄ±àºÅ
-*@return: ËÑË÷µ½µÄÍ¼Êé½Úµã
+*@method: æœç´¢å›¾ä¹¦å‡½æ•°
+*@param: List:å¾…æœç´¢çš„é“¾è¡¨;ID:å¾…æœç´¢å›¾ä¹¦çš„ç¼–å·
+*@return: æœç´¢åˆ°çš„å›¾ä¹¦èŠ‚ç‚¹
 *@others:
 */
 pBook SearchBook(PNode List, char* ID) {
