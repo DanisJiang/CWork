@@ -54,13 +54,9 @@ void createBook(pBook book, char ID[MAX], char name[MAX], char author[MAX], int 
 	book->left = count;
 	book->total = 0;
 	book->type = type;
-	for (int i = 0; i < count; i++) {
+	for (int i = 0; i < MAXLENGTH; i++) {
 		book->info[i].available = true;
 		strcpy(book->info[i].ID,"0") ;
-	}
-	for (int i = count; i < MAXLENGTH; i++) {
-		book->info->available = false;
-		strcpy(book->info[i].ID, "0");
 	}
 }
 /*
@@ -225,14 +221,15 @@ void Insert(PNode List) {
 */
 void Delete(PNode List,char* ID) {
 	PNode p = List;
-	while (p != NULL && strcmp(p->book->ID,ID)!=0) {
+	while (p->next != NULL && strcmp(p->next->book->ID,ID)!=0) {
 		p = p->next;
 	}
 	//待删除节点
-	PNode tmp = p->next;
-	p->next = tmp->next;
-	free(tmp);
-	tmp = NULL;
+	PNode tmp = p;
+	p = p->next;
+	tmp->next = p->next;
+	free(p->book);
+	free(p);
 	printf("图书删除成功!\n");
 }
 /*
@@ -245,6 +242,7 @@ void Clear(PNode List) {
 	PNode p = List->next, tmp;
 	while (p != NULL) {
 		tmp = p->next;
+		free(p->book);
 		free(p);
 		p = tmp;
 	}

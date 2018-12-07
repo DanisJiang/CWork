@@ -29,7 +29,7 @@ PNode initializeBook()
 	csvBook = fopen("Book.csv", "r");
 	if (NULL == csvBook) {
 		printf("文件读取失败\n");
-		exit(-1);
+		exit(-1);                                                     
 	}
 	PNode head = (PNode)malloc(sizeof(Node));
 	if (head == NULL) {
@@ -73,90 +73,14 @@ PNode initializeBook()
 			record = strtok(NULL, ",");  // ID
 			strcpy(pNew->book->info[k].ID, record);
 		}
+		int temp = strlen(pNew->book->info[9].ID)-1;
+		pNew->book->info[9].ID[temp] = '\0';
 		record = strtok(NULL, ",");
-		/*printf("%s %s", pNew->book->name, pNew->book->author);  // 测试
-		printf("第%d本书添加成功!\n", i);
-		printf("%d %s %d %s %d %s %d %s %d %s %d %s %d %s %d %s %d %s %d %s\n"
-			, pNew->book->info[0].available, pNew->book->info[0].ID
-			, pNew->book->info[1].available, pNew->book->info[1].ID
-			, pNew->book->info[2].available, pNew->book->info[2].ID
-			, pNew->book->info[3].available, pNew->book->info[3].ID
-			, pNew->book->info[4].available, pNew->book->info[4].ID
-			, pNew->book->info[5].available, pNew->book->info[5].ID
-			, pNew->book->info[6].available, pNew->book->info[6].ID
-			, pNew->book->info[7].available, pNew->book->info[7].ID
-			, pNew->book->info[8].available, pNew->book->info[8].ID
-			, pNew->book->info[9].available, pNew->book->info[9].ID);*/
 		tail->next = pNew;
 		pNew->next = NULL;
 		tail = pNew;
 		i++;
 	}
-	// 读入xls文档时
-	/*FILE *xlsBook;
-	xlsBook = fopen("xlsBook.xls", "r");
-	if (NULL == xlsBook)
-	{
-		printf("文件读取失败\n");
-		exit(0);
-	}
-	PNode head = (PNode)malloc(sizeof(Node));
-	if (head == NULL) {
-		printf("分配失败!\n");
-		exit(-1);
-	}
-	PNode tail = head;
-	tail->next = NULL;
-	fscanf(xlsBook, "%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\t%*s\n");  // 跳过第一行
-	int i = 1;
-	while(feof(xlsBook)==0){
-	//for (int i = 1; i <= 2; i++) {
-		PNode pNew = (PNode)malloc(sizeof(Node));
-		if (pNew == NULL)
-		{
-			printf("分配失败!\n");
-			exit(-1);
-		}
-		pNew->book = (pBook)malloc(sizeof(Book)); //创建书本
-		fscanf(xlsBook, "%s\t%s\t%s\t%d\t%s\t%s\t%lf\t%d\t%d\t%d\t", name, author,
-			ID, &count, publisher, date, &price, &type,&pNew->book->left,&pNew->book->total);
-		int temp[MAXLENGTH];
-		fscanf(xlsBook, "%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\t%d\t%s\n"
-			, &temp[0], &pNew->book->info[0].ID
-			, &temp[1], &pNew->book->info[1].ID
-			, &temp[2], &pNew->book->info[2].ID
-			, &temp[3], &pNew->book->info[3].ID
-			, &temp[4], &pNew->book->info[4].ID
-			, &temp[5], &pNew->book->info[5].ID
-			, &temp[6], &pNew->book->info[6].ID
-			, &temp[7], &pNew->book->info[7].ID
-			, &temp[8], &pNew->book->info[8].ID
-			, &temp[9], &pNew->book->info[9].ID
-		);
-		printf("%d %s %d %s %d %s %d %s %d %s %d %s %d %s %d %s %d %s %d %s\n"
-			, temp[0], pNew->book->info[0].ID
-			, temp[1], pNew->book->info[1].ID
-			, temp[2], pNew->book->info[2].ID
-			, temp[3], pNew->book->info[3].ID
-			, temp[4], pNew->book->info[4].ID
-			, temp[5], pNew->book->info[5].ID
-			, temp[6], pNew->book->info[6].ID
-			, temp[7], pNew->book->info[7].ID
-			, temp[8], pNew->book->info[8].ID
-			, temp[9], pNew->book->info[9].ID);
-		for (int j = 0; j < MAXLENGTH; j++) {
-			pNew->book->info[j].available =(TYPE)temp[j] ;
-		}
-		printf("%s %s", name, author);
-		createBook(pNew->book, ID, name, author, count, price, date, (TYPE)type, publisher);
-		printf("第%d本书添加成功!\n",i);
-		tail->next = pNew;
-		pNew->next = NULL;
-		tail = pNew;
-		i++;
-	}
-
-	fclose(xlsBook);*/
 
 	return head;
 }
@@ -192,7 +116,7 @@ void saveBook(PNode head)
 		for (int j = 0; j < MAX; j++) {
 			temp[j] = (int)p->book->info[j].available;
 		}
-		fprintf(csvBook, "%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s"
+		fprintf(csvBook, "%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s\n"
 			, temp[0], p->book->info[0].ID
 			, temp[1], p->book->info[1].ID
 			, temp[2], p->book->info[2].ID
@@ -221,7 +145,7 @@ void saveBook(PNode head)
 PNode intializeProgram()
 {
 	PNode bookHead;
-	if (_access("xlsBook.xls", 0))  // 未查找到文件
+	if (_access("Book.csv", 0))  // 未查找到文件
 	{
 		bookHead = Create();
 	}
@@ -242,5 +166,5 @@ PNode intializeProgram()
 void closeProgram(PNode head)
 {
 	saveBook(head);
-	//Clear(head);
+	Clear(head);
 }
