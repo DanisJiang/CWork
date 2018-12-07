@@ -14,11 +14,58 @@
 */
 PNode initializeBook()
 {
+	// 书本属性定义开始
 	char ID[MAX], publisher[MAX], author[MAX], name[MAX], date[MAX];
 	int  count;
 	double price;
 	int type;  // 图书种类
-	FILE *xlsBook;
+	// 书本属性定义结束
+	// 文件读取定义开始
+	char *line, *record;
+	char buffer[1024];
+	// 文件读取定义结束
+	FILE *csvBook;
+	csvBook = fopen("Book.csv", "r");
+	if (NULL == csvBook) {
+		printf("文件读取失败\n");
+		exit(-1);
+	}
+	PNode head = (PNode)malloc(sizeof(Node));
+	if (head == NULL) {
+		printf("分配失败!\n");
+		exit(-1);
+	}
+	PNode tail = head;
+	tail->next = NULL;
+	line = fgets(buffer, sizeof(buffer), csvBook);  // 跳过第一行
+	int i = 0;
+	while ((line = fgets(buffer, sizeof(buffer), csvBook)) != NULL) {
+		PNode pNew = (PNode)malloc(sizeof(Node));
+		if (pNew == NULL){
+			printf("分配失败!\n");
+			exit(-1);
+		}
+		pNew->book = (pBook)malloc(sizeof(Book)); //创建书本
+		record = strtok(line, ",");
+		strcpy(pNew->book->name, record);
+		record = strtok(line, ",");
+		strcpy(pNew->book->author, record);
+		record = strtok(line, ",");
+		strcpy(pNew->book->ID, record);
+		record = strtok(line, ",");  // 数量，需要转换
+		record = strtok(line, ",");
+		strcpy(pNew->book->publisher, record);
+		record = strtok(line, ",");
+		strcpy(pNew->book->date, record);
+		record = strtok(line, ",");  // 价格，需要转换
+		record = strtok(line, ",");  // 类型，需要转换
+		record = strtok(line, ",");  // 剩余数量，需要转换
+		record = strtok(line, ",");  // 总借出次数，需要转换
+		for (int k = 0; k < MAXLENGTH; K++) {
+
+		}
+	}
+	/*FILE *xlsBook;
 	xlsBook = fopen("xlsBook.xls", "r");
 	if (NULL == xlsBook)
 	{
@@ -81,7 +128,7 @@ PNode initializeBook()
 		i++;
 	}
 
-	fclose(xlsBook);
+	fclose(xlsBook);*/
 
 	return head;
 }
