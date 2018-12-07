@@ -6,6 +6,7 @@
 #include"GLOBAL.h"
 #include<io.h>
 
+
 /*
 *@method: 初始化图书链表（有文件时）
 *@param: 无
@@ -48,23 +49,50 @@ PNode initializeBook()
 		pNew->book = (pBook)malloc(sizeof(Book)); //创建书本
 		record = strtok(line, ",");
 		strcpy(pNew->book->name, record);
-		record = strtok(line, ",");
+		record = strtok(NULL, ",");
 		strcpy(pNew->book->author, record);
-		record = strtok(line, ",");
+		record = strtok(NULL, ",");
 		strcpy(pNew->book->ID, record);
-		record = strtok(line, ",");  // 数量，需要转换
-		record = strtok(line, ",");
+		record = strtok(NULL, ",");  // 数量，需要转换
+		sscanf(record, "%d", &pNew->book->count);
+		record = strtok(NULL, ",");
 		strcpy(pNew->book->publisher, record);
-		record = strtok(line, ",");
+		record = strtok(NULL, ",");
 		strcpy(pNew->book->date, record);
-		record = strtok(line, ",");  // 价格，需要转换
-		record = strtok(line, ",");  // 类型，需要转换
-		record = strtok(line, ",");  // 剩余数量，需要转换
-		record = strtok(line, ",");  // 总借出次数，需要转换
-		for (int k = 0; k < MAXLENGTH; K++) {
-
+		record = strtok(NULL, ",");  // 价格，需要转换
+		sscanf(record, "%lf", &pNew->book->price);
+		record = strtok(NULL, ",");  // 类型，需要转换
+		sscanf(record, "%d", &pNew->book->type);
+		record = strtok(NULL, ",");  // 剩余数量，需要转换
+		sscanf(record, "%d", &pNew->book->left);
+		record = strtok(NULL, ",");  // 总借出次数，需要转换
+		sscanf(record, "%d", &pNew->book->total);
+		for (int k = 0; k < MAXLENGTH; k++) {
+			record = strtok(NULL, ",");  // 状态
+			sscanf(record, "%d", &pNew->book->info[k].available);
+			record = strtok(NULL, ",");  // ID
+			strcpy(pNew->book->info[k].ID, record);
 		}
+		record = strtok(NULL, ",");
+		/*printf("%s %s", pNew->book->name, pNew->book->author);  // 测试
+		printf("第%d本书添加成功!\n", i);
+		printf("%d %s %d %s %d %s %d %s %d %s %d %s %d %s %d %s %d %s %d %s\n"
+			, pNew->book->info[0].available, pNew->book->info[0].ID
+			, pNew->book->info[1].available, pNew->book->info[1].ID
+			, pNew->book->info[2].available, pNew->book->info[2].ID
+			, pNew->book->info[3].available, pNew->book->info[3].ID
+			, pNew->book->info[4].available, pNew->book->info[4].ID
+			, pNew->book->info[5].available, pNew->book->info[5].ID
+			, pNew->book->info[6].available, pNew->book->info[6].ID
+			, pNew->book->info[7].available, pNew->book->info[7].ID
+			, pNew->book->info[8].available, pNew->book->info[8].ID
+			, pNew->book->info[9].available, pNew->book->info[9].ID);*/
+		tail->next = pNew;
+		pNew->next = NULL;
+		tail = pNew;
+		i++;
 	}
+	// 读入xls文档时
 	/*FILE *xlsBook;
 	xlsBook = fopen("xlsBook.xls", "r");
 	if (NULL == xlsBook)
@@ -141,47 +169,47 @@ PNode initializeBook()
 */
 void saveBook(PNode head)
 {
-	FILE *xlsBook;
-	remove("xlsBook.csv");
-	xlsBook = fopen("xlsBook.csv", "w");
-	if (NULL == xlsBook)
+	FILE *csvBook;
+	remove("Book.csv");
+	csvBook = fopen("Book.csv", "w");
+	if (NULL == csvBook)
 	{
 		printf("文件读取失败\n");
 		exit(0);
 	}
-	fprintf(xlsBook, "书名,作者,编号,数量,出版商,发行日期,价格,类型,剩余数量,");
-	fprintf(xlsBook, "总共借出次数,书1状态,书1ID,书2状态,");
-	fprintf(xlsBook, "书2ID,书3状态,书3ID,书4状态,");
-	fprintf(xlsBook, "书4ID,书5状态,书5ID,书6状态,书6ID,书7状态,书7ID,书8状态,");
-	fprintf(xlsBook, "书8ID,书9状态,书9ID,书10状态,书10ID\n");  // 初始化表格文件
+	fprintf(csvBook, "书名,作者,编号,数量,出版商,发行日期,价格,类型,剩余数量,");
+	fprintf(csvBook, "总共借出次数,书1状态,书1ID,书2状态,");
+	fprintf(csvBook, "书2ID,书3状态,书3ID,书4状态,");
+	fprintf(csvBook, "书4ID,书5状态,书5ID,书6状态,书6ID,书7状态,书7ID,书8状态,");
+	fprintf(csvBook, "书8ID,书9状态,书9ID,书10状态,书10ID\n");  // 初始化表格文件
 	PNode p = head->next;
 	while (p != NULL)
 	{
-		fprintf(xlsBook, "%s,%s,%s,%d,%s,%s,%lf,%d,%d,%d,", p->book->name, p->book->author,
+		fprintf(csvBook, "%s,%s,%s,%d,%s,%s,%lf,%d,%d,%d,", p->book->name, p->book->author,
 			p->book->ID, p->book->count, p->book->publisher, 
 			p->book->date, p->book->price, p->book->type, p->book->left, p->book->total);
 		int temp[MAX];
 		for (int j = 0; j < MAX; j++) {
 			temp[j] = (int)p->book->info[j].available;
 		}
-		fscanf(xlsBook, "%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s\n"
-			, &temp[0], p->book->info[0].ID
-			, &temp[1], p->book->info[1].ID
-			, &temp[2], p->book->info[2].ID
-			, &temp[3], p->book->info[3].ID
-			, &temp[4], p->book->info[4].ID
-			, &temp[5], p->book->info[5].ID
-			, &temp[6], p->book->info[6].ID
-			, &temp[7], p->book->info[7].ID
-			, &temp[8], p->book->info[8].ID
-			, &temp[9], p->book->info[9].ID
+		fprintf(csvBook, "%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s"
+			, temp[0], p->book->info[0].ID
+			, temp[1], p->book->info[1].ID
+			, temp[2], p->book->info[2].ID
+			, temp[3], p->book->info[3].ID
+			, temp[4], p->book->info[4].ID
+			, temp[5], p->book->info[5].ID
+			, temp[6], p->book->info[6].ID
+			, temp[7], p->book->info[7].ID
+			, temp[8], p->book->info[8].ID
+			, temp[9], p->book->info[9].ID
 		);
 		p = p->next;
 
 		
 	}
 
-	fclose(xlsBook);
+	fclose(csvBook);
 }
 
 /*
@@ -214,5 +242,5 @@ PNode intializeProgram()
 void closeProgram(PNode head)
 {
 	saveBook(head);
-	Clear(head);
+	//Clear(head);
 }

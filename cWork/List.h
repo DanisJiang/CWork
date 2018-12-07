@@ -53,8 +53,14 @@ void createBook(pBook book, char ID[MAX], char name[MAX], char author[MAX], int 
 	book->price = price;
 	book->left = count;
 	book->total = 0;
-	for (int i = 0; i < MAXLENGTH; i++) {
-		book->info[i].available=true;
+	book->type = type;
+	for (int i = 0; i < count; i++) {
+		book->info[i].available = true;
+		strcpy(book->info[i].ID,"0") ;
+	}
+	for (int i = count; i < MAXLENGTH; i++) {
+		book->info->available = false;
+		strcpy(book->info[i].ID, "0");
 	}
 }
 /*
@@ -205,6 +211,7 @@ void Insert(PNode List) {
 	scanf("%lf", &price);
 	printf("请输入书类型");
 	scanf("%d", &type);
+
 	createBook(tmp->book, ID, name, author, count, price, date, type, publisher);
 	tmp->next = p->next;
 	p->next = tmp;
