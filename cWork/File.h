@@ -39,7 +39,7 @@ PNode initializeBook()
 	PNode tail = head;
 	tail->next = NULL;
 	line = fgets(buffer, sizeof(buffer), csvBook);  // 跳过第一行
-	int i = 0;
+	int sum = 0;
 	while ((line = fgets(buffer, sizeof(buffer), csvBook)) != NULL) {
 		PNode pNew = (PNode)malloc(sizeof(Node));
 		if (pNew == NULL){
@@ -59,13 +59,13 @@ PNode initializeBook()
 		strcpy(pNew->book->publisher, record);
 		record = strtok(NULL, ",");
 		strcpy(pNew->book->date, record);
-		record = strtok(NULL, ",");  // 价格，需要转换
+		record = strtok(NULL, ",");  // 价格
 		sscanf(record, "%lf", &pNew->book->price);
-		record = strtok(NULL, ",");  // 类型，需要转换
+		record = strtok(NULL, ",");  // 类型
 		sscanf(record, "%d", &pNew->book->type);
-		record = strtok(NULL, ",");  // 剩余数量，需要转换
+		record = strtok(NULL, ",");  // 剩余数量
 		sscanf(record, "%d", &pNew->book->left);
-		record = strtok(NULL, ",");  // 总借出次数，需要转换
+		record = strtok(NULL, ",");  // 总借出次数
 		sscanf(record, "%d", &pNew->book->total);
 		for (int k = 0; k < MAXLENGTH; k++) {
 			record = strtok(NULL, ",");  // 状态
@@ -79,11 +79,20 @@ PNode initializeBook()
 		tail->next = pNew;
 		pNew->next = NULL;
 		tail = pNew;
-		i++;
+		sum += pNew->book->count;
 	}
+	printf("-------------------------------------------\n"); Sleep(10);
+	printf("当前“608-Library”共有%d本书！\n",sum);
 
 	return head;
 }
+
+/*
+*@method: 初始化用户（有文件时）
+*@param: 无
+*@return: 图书链表的头指针
+*@others:
+*/
 
 /*
 *@method: 保存图书文件（程序退出时）
@@ -147,15 +156,32 @@ void saveBook(PNode head)
 PNode intializeProgram()
 {
 	PNode bookHead;
+	printf("\n");
+	printf("   $$$$$$\\   $$$$$$\\   $$$$$$\\                  $$\\       $$\\ $$\\                                              \n"); Sleep(100);
+	printf("  $$  __$$\\ $$$ __$$\\ $$  __$$\\                 $$ |      \\__|$$ |                                             \n"); Sleep(100);
+	printf("  $$ /  \\__|$$$$\\ $$ |$$ /  $$ |                $$ |      $$\\ $$$$$$$\\   $$$$$$\\  $$$$$$\\   $$$$$$\\  $$\\   $$\\ \n"); Sleep(100);
+	printf("  $$$$$$$\\  $$\\$$\\$$ | $$$$$$  |$$$$$$\\ $$$$$$\\ $$ |      $$ |$$  __$$\\ $$  __$$\\ \\____$$\\ $$  __$$\\ $$ |  $$ |\n"); Sleep(100);
+	printf("  $$  __$$\\ $$ \\$$$$ |$$  __$$< \\______|\\______|$$ |      $$ |$$ |  $$ |$$ |  \\__|$$$$$$$ |$$ |  \\__|$$ |  $$ |\n"); Sleep(100);
+	printf("  $$ /  $$ |$$ |\\$$$ |$$ /  $$ |                $$ |      $$ |$$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |  $$ |\n"); Sleep(100);
+	printf("   $$$$$$  |\\$$$$$$  /\\$$$$$$  |                $$$$$$$$\\ $$ |$$$$$$$  |$$ |     \\$$$$$$$ |$$ |      \\$$$$$$$ |\n"); Sleep(100);
+	printf("   \\______/  \\______/  \\______/                 \\________|\\__|\\_______/ \\__|      \\_______|\\__|       \\____$$ |\n"); Sleep(100);
+	printf("                                                                                                     $$\\   $$ |\n"); Sleep(100);
+	printf("                                                                                                     \\$$$$$$  |\n"); Sleep(100);
+	printf("                                                                                                      \\______/ \n"); Sleep(100);
 	if (_access("Book.csv", 0))  // 未查找到文件
 	{
 		bookHead = Create();
+		Traverse(bookHead);
+		printf("-------------------------------------------\n"); Sleep(10);
+		printf("“608-Library”初始化完成！\n");
+
 	}
 	else  // 查找到文件，录入
 	{
 		bookHead = initializeBook();
 	}
-
+	printf("欢迎使用“608-Library”！！！\n");
+	printf("-------------------------------------------\n"); Sleep(10);
 	return bookHead;
 }
 

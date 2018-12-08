@@ -39,7 +39,7 @@
     <ClInclude Include="File.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="WrongInput.h">
+    <ClInclude Include="userlist.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

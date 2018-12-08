@@ -116,6 +116,11 @@ void loginInitAdmin(char* ID,PNode List) {
 	{
 		AdminPrint();
 		scanf("%d", &mode);
+		while (mode <= 0 || mode >= 9) {
+			getchar();
+			printf("请输入数字！\n");
+			scanf("%d", &mode);
+		}
 		switch (mode)
 		{
 		case 1: {  //查询图书
@@ -183,6 +188,11 @@ void loginInit(char* ID,PNode List) {
 	{
 		loginInitPrint();
 		scanf("%d", &mode);
+		while (mode <= 0 || mode >= 9) {
+			getchar();
+			printf("请输入数字！\n");
+			scanf("%d", &mode);
+		}
 		switch (mode)
 		{
 		case 1: {		//搜索图书
@@ -248,24 +258,17 @@ void loginInit(char* ID,PNode List) {
 */
 void Init() {
 	PNode head = intializeProgram();
-	Traverse(head);
-	printf("\n");
-	printf("   $$$$$$\\   $$$$$$\\   $$$$$$\\                  $$\\       $$\\ $$\\                                              \n"); Sleep(100);
-	printf("  $$  __$$\\ $$$ __$$\\ $$  __$$\\                 $$ |      \\__|$$ |                                             \n"); Sleep(100);
-	printf("  $$ /  \\__|$$$$\\ $$ |$$ /  $$ |                $$ |      $$\\ $$$$$$$\\   $$$$$$\\  $$$$$$\\   $$$$$$\\  $$\\   $$\\ \n"); Sleep(100);
-	printf("  $$$$$$$\\  $$\\$$\\$$ | $$$$$$  |$$$$$$\\ $$$$$$\\ $$ |      $$ |$$  __$$\\ $$  __$$\\ \\____$$\\ $$  __$$\\ $$ |  $$ |\n"); Sleep(100);
-	printf("  $$  __$$\\ $$ \\$$$$ |$$  __$$< \\______|\\______|$$ |      $$ |$$ |  $$ |$$ |  \\__|$$$$$$$ |$$ |  \\__|$$ |  $$ |\n"); Sleep(100);
-	printf("  $$ /  $$ |$$ |\\$$$ |$$ /  $$ |                $$ |      $$ |$$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |  $$ |\n"); Sleep(100);
-	printf("   $$$$$$  |\\$$$$$$  /\\$$$$$$  |                $$$$$$$$\\ $$ |$$$$$$$  |$$ |     \\$$$$$$$ |$$ |      \\$$$$$$$ |\n"); Sleep(100);
-	printf("   \\______/  \\______/  \\______/                 \\________|\\__|\\_______/ \\__|      \\_______|\\__|       \\____$$ |\n"); Sleep(100);
-	printf("                                                                                                     $$\\   $$ |\n"); Sleep(100);
-	printf("                                                                                                     \\$$$$$$  |\n"); Sleep(100);
-	printf("                                                                                                      \\______/ \n"); Sleep(100);
 	int mode;
 	char ID[MAX];
+	char password[MAX];
 	while (state != EXIT) {
 			initPrint();
 			scanf("%d", &mode);
+			while (mode <= 0 || mode >= 9) {
+				getchar();
+				printf("请输入数字！\n");
+				scanf("%d", &mode);
+			}
 			switch (mode) {
 			case 1: {
 				char ID[MAX];
@@ -278,7 +281,9 @@ void Init() {
 					case 2:	//登录系统（学生&教师）
 					printf("请输入你的ID：");
 					scanf("%s", ID);
-					if (Login(ID,"stu")) {
+					printf("请输入你的密码：");
+					scanf("%s", password);
+					if (Login(ID,password,"stu")) {
 						loginInit(ID,head);
 					}
 					else {
@@ -286,10 +291,12 @@ void Init() {
 					}
 					break;
 			case 3: {	//登录系统（管理员）
-				char ID[MAX];
+				char password[MAX];
 				printf("请输入你的管理员ID：\n");
 				scanf("%s", ID);
-				if (Login(ID,"tea"))
+				printf("请输入你的密码：");
+				scanf("%s", password);
+				if (Login(ID,password,"tea"))
 				{
 					loginInitAdmin(ID, head);
 				}

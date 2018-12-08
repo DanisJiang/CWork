@@ -6,51 +6,48 @@
 #include "GLOBAL.h"
 
 
-//教师信息
+//管理员信息
 typedef struct Admin {
 	char ID[MAX];
 	char name[MAX];
+	char password[MAX];
 	int priority;
 }Admin;
 
 
-//学生信息
+//用户信息
 typedef struct Person {
 	int priority;  //优先级
-	char ID[MAX];  //学生ID
-	char name[MAX];  //学生姓名
-	int count;		//学生已借书目
-	pBook borrow[BRORROW];  //学生借阅书本集合
+	char ID[MAX];  //用户ID
+	char name[MAX];  //用户姓名
+	char password[MAX];  //用户密码
+	int count;		//用户已借书目
+	pBook borrow[BRORROW];  //用户借阅书本集合
 	int overTime;	//超时书本
 }Person, *pPerson;
 
 
 int length = 5;
-Person persons[5] = {
-	{1,"1","Jack",0},
-	{1,"2","Tom",0},
-	{1,"3","Bruce",0},
-	{1,"4","Alex",0},
-	{1,"5","JQY",0}
-};
+Person persons[100];
 
 
 int lengthT = 1;
 Admin Admins[1] = {
-	{"1","Tea1",0}
+	{"1","Master","123456",0}
 };
 
 
 /*
-*@method: 打印教师信息
+*@method: 打印管理员信息
 *@param:
 *@return:
 *@others:
 */
 void printAdmin(Admin* Admin) {
 	printf("-----------------------------\n");
-	printf("ID:%3s\n", Admin->ID);
-	printf("姓名:%3s\n", Admin->name);
+	printf("ID：%3s\n", Admin->ID);
+	printf("姓名：%3s\n", Admin->name);
+	printf("密码：%s\n", Admin->password);
 	printf("-----------------------------\n");
 }
 
@@ -78,11 +75,11 @@ void printPerson(pPerson person) {
 *@return:
 *@others:
 */
-bool Login(char* ID, const char* type) {
+bool Login(char* ID, char*password,const char* type) {
 	if (strcmp(type, "stu") == 0)
 	{
 		for (int i = 0; i < length; i++) {
-			if (strcmp(persons[i].ID, ID) == 0) {
+			if ((strcmp(persons[i].ID, ID) ||strcmp(persons[i].password,password)) == 0) {
 				printf("登录成功!\n");
 				return true;
 			}
@@ -91,7 +88,7 @@ bool Login(char* ID, const char* type) {
 	}
 	else if (strcmp(type, "tea") == 0) {
 		for (int i = 0; i < lengthT; i++) {
-			if (strcmp(Admins[i].ID, ID) == 0) {
+			if ((strcmp(Admins[i].ID, ID)||strcmp(Admins[i].password,password)) == 0) {
 				printf("登录成功!\n");
 				return true;
 			}
@@ -138,7 +135,7 @@ int getIndex(char* ID, const char type[]) {
 
 /*
 *@method: 借书
-*@param: index:学生序号(不是学号);book:待借书本
+*@param: index:用户序号(不是学号);book:待借书本
 *@return:
 *@others:
 */
@@ -161,7 +158,7 @@ void Borrow(pPerson person, pBook book) {
 
 /*
 *@method: 还书
-*@param:person: 还书的学生;ID:待还书的ID
+*@param:person: 还书的用户;ID:待还书的ID
 *@return: 还书是否成功
 *@others:
 */
