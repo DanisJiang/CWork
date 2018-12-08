@@ -3,6 +3,7 @@
 #include<stdio.h>
 #include <string.h>
 #include<stdlib.h>
+#include<Windows.h>
 #include "GLOBAL.h"
 
 typedef struct Info {
@@ -67,34 +68,49 @@ void createBook(pBook book, char ID[MAX], char name[MAX], char author[MAX], int 
 */
 void printBook(pBook book) {
 	if (NULL == book) {
-		printf("\n-------------------------------------------\n");
-		printf("没有这本书！！！\n");
-		printf("(；′⌒`)  (；′⌒`)  (；′⌒`)\n");
-		printf("-------------------------------------------\n");
+		printf("\n-------------------------------------------\n"); Sleep(10);
+		printf("没有这本书！！！\n"); Sleep(10);
+		printf("(；′⌒`)  (；′⌒`)  (；′⌒`)\n"); Sleep(10);
+		printf("-------------------------------------------\n"); Sleep(10);
 		return;
 	}
 	int t = book->count - book->left;
-	printf("-------------------------------------------\n");
-	printf("编号:%8s\n", book->ID);
-	printf("书名:%8s\n", book->name);
-	printf("作者:%8s\n", book->author);
-	printf("价格:%8g\n", book->price);
-	printf("出版商:%8s\n", book->publisher);
-	printf("总量:%8d\n", book->count);
-	printf("库存:%8d\n", book->left);
-	printf("该书已借出%d次\n", book->total);
+	printf("-------------------------------------------\n"); Sleep(10);
+	printf("编号：%14s\n", book->ID); Sleep(10);
+	printf("书名：%14s\n", book->name); Sleep(10);
+	printf("类型：");
+	switch (book->type)
+	{
+		case 0:
+			printf("          书籍\n");
+			break;
+		case 1:
+			printf("          期刊\n");
+			break;
+		case 2:
+			printf("          报刊\n");
+			break;
+		default:
+			break;
+	}
+	printf("作者：%14s\n", book->author); Sleep(10);
+	printf("价格：%14g\n", book->price); Sleep(10);
+	printf("出版商：%12s\n", book->publisher); Sleep(10);
+	printf("总量：%14d\n", book->count); Sleep(10);
+	printf("库存：%14d\n", book->left); Sleep(10);
+	printf("该书已借出%d次\n", book->total); Sleep(10);
 	for (int i = 0; i <t; i++) {
 		if (book->info[i].available==false) {
-			printf("第%d本书借给了ID为%s的同学\n", i + 1, book->info[i].ID);
+			printf("第%d本书借给了ID为%s的同学\n", i + 1, book->info[i].ID); Sleep(10);
 		}
 	}
 	if (book->left > 0) {
-		printf("可借阅\n");
+		printf("可借阅\n"); Sleep(10);
 	}
 	else {
-		printf("已借出\n");
+		printf("已借出\n"); Sleep(10);
 	}
-	printf("-------------------------------------------\n");
+	printf("-------------------------------------------\n"); Sleep(10);
 }
 /*
 *@method: 创建图书链表并初始化
@@ -124,21 +140,21 @@ PNode Create() {
 			exit(-1);
 		}
 		pNew->book = (pBook)calloc(1,sizeof(Book)); //创建书本
-		printf("请输入第%d本书的书名", i);
+		printf("请输入第%d本书的书名：", i);
 		scanf("%s", name);
-		printf("请输入第%d本书的作者", i);
+		printf("请输入第%d本书的作者：", i);
 		scanf("%s", author);
-		printf("请输入第%d本书的编号", i);
+		printf("请输入第%d本书的编号：", i);
 		scanf("%s", ID);
-		printf("请输入第%d本书的数量", i);
+		printf("请输入第%d本书的数量：", i);
 		scanf("%d", &count);
-		printf("请输入第%d本书出版商", i);
+		printf("请输入第%d本书出版商：", i);
 		scanf("%s", publisher);
-		printf("请输入第%d本书发行日期", i);
+		printf("请输入第%d本书发行日期：", i);
 		scanf("%s", date);
-		printf("请输入第%d本书价格", i);
+		printf("请输入第%d本书价格：", i);
 		scanf("%lf", &price);
-		printf("请输入第%d本书类型", i);
+		printf("请输入第%d本书类型：", i);
 		scanf("%d", &type);
 		createBook(pNew->book, ID, name, author, count, price, date, type, publisher);
 		printf("第%d本书添加成功!\n", i);
@@ -158,7 +174,7 @@ void Traverse(PNode List) {
 	PNode p = List->next;
 	int i = 1;
 	if (p == NULL)
-		printf("当前目录为空\n");
+		printf("当前目录为空！！！\n");
 	while (p != NULL)
 	{
 		printf(">>>>>>>>>>>>>第%d本书<<<<<<<<<<<<\n", i);
@@ -191,22 +207,22 @@ void Insert(PNode List) {
 	}
 	//插入节点
 	tmp->book = (pBook)malloc(sizeof(Book));
-	printf("请输入书名");
+	printf("请输入书名：");
 	scanf("%s", name);
-	printf("请输入书的作者");
+	printf("请输入书的作者：");
 	scanf("%s", author);
-	printf("请输入书的编号");
+	printf("请输入书的编号：");
 	scanf("%s", ID);
-	printf("请输入书的数量");
-	scanf("%d", &count);
-	printf("请输入书出版商");
-	scanf("%s", publisher);
-	printf("请输入书发行日期");
-	scanf("%s", date);
-	printf("请输入书价格");
-	scanf("%lf", &price);
-	printf("请输入书类型");
+	printf("请输入书类型：(书籍——0；期刊——1；报刊——2）");
 	scanf("%d", &type);
+	printf("请输入书的数量：");
+	scanf("%d", &count);
+	printf("请输入书出版商：");
+	scanf("%s", publisher);
+	printf("请输入书发行日期：");
+	scanf("%s", date);
+	printf("请输入书价格：");
+	scanf("%lf", &price);
 
 	createBook(tmp->book, ID, name, author, count, price, date, type, publisher);
 	tmp->next = p->next;
@@ -224,13 +240,21 @@ void Delete(PNode List,char* ID) {
 	while (p->next != NULL && strcmp(p->next->book->ID,ID)!=0) {
 		p = p->next;
 	}
-	//待删除节点
-	PNode tmp = p;
-	p = p->next;
-	tmp->next = p->next;
-	free(p->book);
-	free(p);
-	printf("图书删除成功!\n");
+	printBook(p->next->book);
+	printf("确认删除？\n");
+	printf("1.是 2.否\n");
+	int i = 0;
+	scanf("%d", &i);
+	if (1 == i) {
+		PNode tmp = p;
+		p = p->next;
+		tmp->next = p->next;
+		free(p->book);
+		free(p);
+		printf("图书删除成功!\n");
+	}
+	else
+		return;
 }
 /*
 *@method: 清空图书链表
@@ -240,7 +264,7 @@ void Delete(PNode List,char* ID) {
 */
 void Clear(PNode List) {
 	PNode p = List->next, tmp;
-	while (p != NULL) {
+	while (p->next != NULL) {
 		tmp = p->next;
 		free(p->book);
 		free(p);

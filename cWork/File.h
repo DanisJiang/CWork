@@ -107,6 +107,7 @@ void saveBook(PNode head)
 	fprintf(csvBook, "书4ID,书5状态,书5ID,书6状态,书6ID,书7状态,书7ID,书8状态,");
 	fprintf(csvBook, "书8ID,书9状态,书9ID,书10状态,书10ID\n");  // 初始化表格文件
 	PNode p = head->next;
+	int i = 0;
 	while (p != NULL)
 	{
 		fprintf(csvBook, "%s,%s,%s,%d,%s,%s,%lf,%d,%d,%d,", p->book->name, p->book->author,
@@ -129,9 +130,10 @@ void saveBook(PNode head)
 			, temp[9], p->book->info[9].ID
 		);
 		p = p->next;
-
+		i++;
 		
 	}
+	printf("已成功保存%d本书！\n", i);
 
 	fclose(csvBook);
 }
@@ -165,6 +167,6 @@ PNode intializeProgram()
 */
 void closeProgram(PNode head)
 {
-	saveBook(head);
-	Clear(head);
+	saveBook(head); Sleep(200);
+	Clear(head); Sleep(200);
 }

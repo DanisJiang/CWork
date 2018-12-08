@@ -22,5 +22,5 @@
 其他
 */
 typedef enum TYPE{  //图书种类枚举
-	NOVEL,ESSAY,POEM,TECH,
+	BOOK,PERIODICAL,PRESS
 }TYPE;

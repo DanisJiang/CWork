@@ -17,16 +17,17 @@ int state = LOGOUT; //当前状态
 *@return: 
 *@others:
 */
-void teacherPrint() {
-	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
-	printf("请选择操作:\n");
-	printf("1.查看所有图书\n");
-	printf("2.添加图书\n");
-	printf("3.删除图书\n");
-	printf("4.查看学生\n");
-	printf("5.查看教师信息\n");
-	printf("6.登出\n");
-	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+void AdminPrint() {
+	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"); Sleep(10);
+	printf("请选择操作:\n"); Sleep(10);
+	printf("1.查找图书\n"); Sleep(10);
+	printf("2.查看所有图书\n"); Sleep(10);
+	printf("3.添加图书\n"); Sleep(10);
+	printf("4.删除图书\n"); Sleep(10);
+	printf("5.查看学生\n"); Sleep(10);
+	printf("6.查看管理员信息\n"); Sleep(10);
+	printf("7.登出\n"); Sleep(10);
+	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"); Sleep(10);
 }
 
 
@@ -37,33 +38,33 @@ void teacherPrint() {
 *@others:
 */
 void initPrint() {
-	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"); Sleep(30);
-	printf("图书管理系统V1.0\n");  Sleep(30);
-	printf("请选择功能:\n");  Sleep(30);
-	printf("1.查询书本\n"); Sleep(30);
-	printf("2.登录(学生通道)\n"); Sleep(30);
-	printf("3.登录(教师通道)\n");  Sleep(30);
-	printf("4.关于作者\n");  Sleep(30);
-	printf("5.退出.\n"); Sleep(30);
-	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"); Sleep(30);
+	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"); Sleep(10);
+	printf("图书管理系统V1.1\n");  Sleep(10);
+	printf("请选择功能:\n");  Sleep(10);
+	printf("1.查询书本\n"); Sleep(10);
+	printf("2.登录(学生&教师通道)\n"); Sleep(10);
+	printf("3.登录(管理员通道)\n");  Sleep(10);
+	printf("4.开发者信息\n");  Sleep(10);
+	printf("5.保存数据并退出.（直接关闭程序将丢失数据！！！）\n"); Sleep(10);
+	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"); Sleep(10);
 }
 
 
 /*
-*@method: 打印学生页面
+*@method: 打印学生&教师页面
 *@param:
 *@return:
 *@others:
 */
 void loginInitPrint() {
-	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
-	printf("请选择操作:\n");
-	printf("1.查询书本\n");
-	printf("2.我要借书\n");
-	printf("3.我要还书\n");
-	printf("4.查看个人情况\n");
-	printf("5.登出.\n");
-	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
+	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"); Sleep(10);
+	printf("请选择操作:\n"); Sleep(10);
+	printf("1.查询书本\n"); Sleep(10);
+	printf("2.我要借书\n"); Sleep(10);
+	printf("3.我要还书\n"); Sleep(10);
+	printf("4.查看个人情况\n"); Sleep(10);
+	printf("5.登出.\n"); Sleep(10);
+	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"); Sleep(10);
 }
 
 
@@ -74,45 +75,46 @@ void loginInitPrint() {
 *@others:
 */
 void printAuthor() {
-	printf(" $$$$$$\\   $$$$$$\\   $$$$$$\\                  $$\\       $$\\ $$\\                                              \n"); Sleep(100);
-	printf("$$  __$$\\ $$$ __$$\\ $$  __$$\\                 $$ |      \\__|$$ |                                             \n"); Sleep(100);
-	printf("$$ /  \\__|$$$$\\ $$ |$$ /  $$ |                $$ |      $$\\ $$$$$$$\\   $$$$$$\\  $$$$$$\\   $$$$$$\\  $$\\   $$\\ \n"); Sleep(100);
-	printf("$$$$$$$\\  $$\\$$\\$$ | $$$$$$  |$$$$$$\\ $$$$$$\\ $$ |      $$ |$$  __$$\\ $$  __$$\\ \\____$$\\ $$  __$$\\ $$ |  $$ |\n"); Sleep(100);
-	printf("$$  __$$\\ $$ \\$$$$ |$$  __$$< \\______|\\______|$$ |      $$ |$$ |  $$ |$$ |  \\__|$$$$$$$ |$$ |  \\__|$$ |  $$ |\n"); Sleep(100);
-	printf("$$ /  $$ |$$ |\\$$$ |$$ /  $$ |                $$ |      $$ |$$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |  $$ |\n"); Sleep(100);
-	printf(" $$$$$$  |\\$$$$$$  /\\$$$$$$  |                $$$$$$$$\\ $$ |$$$$$$$  |$$ |     \\$$$$$$$ |$$ |      \\$$$$$$$ |\n"); Sleep(100);
-	printf(" \\______/  \\______/  \\______/                 \\________|\\__|\\_______/ \\__|      \\_______|\\__|       \\____$$ |\n"); Sleep(100);
-	printf("                                                                                                   $$\\   $$ |\n"); Sleep(100);
-	printf("                                                                                                   \\$$$$$$  |\n"); Sleep(100);
-	printf("                                                                                                    \\______/ \n"); Sleep(100);
-	printf("  ____     __      __                      __           __                                        \n"); Sleep(100);
-	printf(" /'___\\  /'__`\\  /'_ `\\                   /\\ \\       __/\\ \\                                       \n"); Sleep(100);
-	printf("/\\ \\__/ /\\ \\/\\ \\/\\ \\L\\ \\                  \\ \\ \\     /\\_\\ \\ \\____  _ __    __     _ __   __  __    \n"); Sleep(100);
-	printf("\\ \\  _``\\ \\ \\ \\ \\/_> _ <_  _______  _______\\ \\ \\  __\\/\\ \\ \\ '__`\\/\\`'__\\/'__`\\  /\\`'__\\/\\ \\/\\ \\   \n"); Sleep(100);
-	printf(" \\ \\ \\L\\ \\ \\ \\_\\ \\/\\ \\L\\ \\/\\______\\/\\______\\\\ \\ \\L\\ \\\\ \\ \\ \\ \\L\\ \\ \\ \\//\\ \\L\\.\\_\\ \\ \\/ \\ \\ \\_\\ \\  \n"); Sleep(100);
-	printf("  \\ \\____/\\ \\____/\\ \\____/\\/______/\\/______/ \\ \\____/ \\ \\_\\ \\_,__/\\ \\_\\\\ \\__/.\\_\\\\ \\_\\  \\/`____ \\ \n"); Sleep(100);
-	printf("   \\/___/  \\/___/  \\/___/                     \\/___/   \\/_/\\/___/  \\/_/ \\/__/\\/_/ \\/_/   `/___/> \\\n"); Sleep(100);
-	printf("                                                                                            /\\___/\n"); Sleep(100);
-	printf("                                                                                            \\/__/ \n"); Sleep(100);
+	printf("\n");
+	printf("   $$$$$$\\   $$$$$$\\   $$$$$$\\                  $$\\       $$\\ $$\\                                              \n"); Sleep(100);
+	printf("  $$  __$$\\ $$$ __$$\\ $$  __$$\\                 $$ |      \\__|$$ |                                             \n"); Sleep(100);
+	printf("  $$ /  \\__|$$$$\\ $$ |$$ /  $$ |                $$ |      $$\\ $$$$$$$\\   $$$$$$\\  $$$$$$\\   $$$$$$\\  $$\\   $$\\ \n"); Sleep(100);
+	printf("  $$$$$$$\\  $$\\$$\\$$ | $$$$$$  |$$$$$$\\ $$$$$$\\ $$ |      $$ |$$  __$$\\ $$  __$$\\ \\____$$\\ $$  __$$\\ $$ |  $$ |\n"); Sleep(100);
+	printf("  $$  __$$\\ $$ \\$$$$ |$$  __$$< \\______|\\______|$$ |      $$ |$$ |  $$ |$$ |  \\__|$$$$$$$ |$$ |  \\__|$$ |  $$ |\n"); Sleep(100);
+	printf("  $$ /  $$ |$$ |\\$$$ |$$ /  $$ |                $$ |      $$ |$$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |  $$ |\n"); Sleep(100);
+	printf("   $$$$$$  |\\$$$$$$  /\\$$$$$$  |                $$$$$$$$\\ $$ |$$$$$$$  |$$ |     \\$$$$$$$ |$$ |      \\$$$$$$$ |\n"); Sleep(100);
+	printf("   \\______/  \\______/  \\______/                 \\________|\\__|\\_______/ \\__|      \\_______|\\__|       \\____$$ |\n"); Sleep(100);
+	printf("                                                                                                     $$\\   $$ |\n"); Sleep(100);
+	printf("                                                                                                     \\$$$$$$  |\n"); Sleep(100);
+	printf("                                                                                                      \\______/ \n"); Sleep(100);
+	printf("    ____     __      __                      __           __                                        \n"); Sleep(100);
+	printf("   /'___\\  /'__`\\  /'_ `\\                   /\\ \\       __/\\ \\                                       \n"); Sleep(100);
+	printf("  /\\ \\__/ /\\ \\/\\ \\/\\ \\L\\ \\                  \\ \\ \\     /\\_\\ \\ \\____  _ __    __     _ __   __  __    \n"); Sleep(100);
+	printf("  \\ \\  _``\\ \\ \\ \\ \\/_> _ <_  _______  _______\\ \\ \\  __\\/\\ \\ \\ '__`\\/\\`'__\\/'__`\\  /\\`'__\\/\\ \\/\\ \\   \n"); Sleep(100);
+	printf("   \\ \\ \\L\\ \\ \\ \\_\\ \\/\\ \\L\\ \\/\\______\\/\\______\\\\ \\ \\L\\ \\\\ \\ \\ \\ \\L\\ \\ \\ \\//\\ \\L\\.\\_\\ \\ \\/ \\ \\ \\_\\ \\  \n"); Sleep(100);
+	printf("    \\ \\____/\\ \\____/\\ \\____/\\/______/\\/______/ \\ \\____/ \\ \\_\\ \\_,__/\\ \\_\\\\ \\__/.\\_\\\\ \\_\\  \\/`____ \\ \n"); Sleep(100);
+	printf("     \\/___/  \\/___/  \\/___/                     \\/___/   \\/_/\\/___/  \\/_/ \\/__/\\/_/ \\/_/   `/___/> \\\n"); Sleep(100);
+	printf("                                                                                              /\\___/\n"); Sleep(100);
+	printf("                                                                                              \\/__/ \n"); Sleep(100);
 }
 
 
 /*
-*@method: 教师登录主函数
+*@method: 管理员登录主函数
 *@param:
 *@return:
 *@others:
 */
-void loginInitTeacher(char* ID,PNode List) {
+void loginInitAdmin(char* ID,PNode List) {
 	int i = getIndex(ID,"tea");
 	Person person = persons[i];
-	Teacher teacher = teachers[i];
-	printf("教师%s登陆成功!\n", teachers[i].name);
+	Admin Admin = Admins[i];
+	printf("管理员%s登陆成功!\n", Admins[i].name);
 	state = LOGINTEA;
 	int mode;
 	while (state==LOGINTEA)
 	{
-		teacherPrint();
+		AdminPrint();
 		scanf("%d", &mode);
 		switch (mode)
 		{
@@ -124,31 +126,35 @@ void loginInitTeacher(char* ID,PNode List) {
 			printBook(book);
 			break;
 		}
-		case 2: {  //添加图书
+		case 2: {  //查看所有图书
+			Traverse(List);
+			break;
+		}
+		case 3: {  //添加图书
 			Insert(List);
 			break;
 		}
-		case 3: {	//删除图书
+		case 4: {	//删除图书
 			char ID[MAX];
-			printf("请输入待删除的ID\n");
+			printf("请输入待删除的ID：\n");
 			scanf("%s", ID);
 			Delete(List, ID);
 			break;
 		}	
-		case 4: {	//查看学生信息
+		case 5: {	//查看学生&教师信息
 			char ID[MAX];
-			printf("请输入学生ID\n");
+			printf("请输入学生ID：\n");
 			scanf("%s", ID);
 			int i = getIndex(ID, "stu");
 			Person person = persons[i];
 			printPerson(&person);
 			break;
 		}
-		case 5: {  //查看教师信息
-			printTeacher(&teacher);
+		case 6: {  //查看管理员信息
+			printAdmin(&Admin);
 			break;
 		}
-		case 6: {	//登出系统
+		case 7: {	//登出系统
 			printf("登出\n");
 			state = LOGOUT;
 			break;
@@ -162,7 +168,7 @@ void loginInitTeacher(char* ID,PNode List) {
 
 
 /*
-*@method: 学生登录主函数
+*@method: 学生&教师登录主函数
 *@param:
 *@return:
 *@others:
@@ -170,7 +176,7 @@ void loginInitTeacher(char* ID,PNode List) {
 void loginInit(char* ID,PNode List) {
 	int i = getIndex(ID,"stu");
 	Person person = persons[i];
-	printf("学生%s登录成功!\n", persons[i].name);
+	printf("学生or教师%s登录成功!\n", persons[i].name);
 	state = LOGINSTU;
 	int mode;
 	while (state == LOGINSTU)
@@ -210,7 +216,7 @@ void loginInit(char* ID,PNode List) {
 		case 3://归还图书
 		{
 			char id[MAX];
-			printf("请输入你要归还的图书编号\n");
+			printf("请输入你要归还的图书编号：\n");
 			scanf("%s", id);
 			if (returnBook(&person, id))
 				printf("还书成功\n");
@@ -243,17 +249,18 @@ void loginInit(char* ID,PNode List) {
 void Init() {
 	PNode head = intializeProgram();
 	Traverse(head);
-	printf(" $$$$$$\\   $$$$$$\\   $$$$$$\\                  $$\\       $$\\ $$\\                                              \n"); Sleep(100);
-	printf("$$  __$$\\ $$$ __$$\\ $$  __$$\\                 $$ |      \\__|$$ |                                             \n"); Sleep(100);
-	printf("$$ /  \\__|$$$$\\ $$ |$$ /  $$ |                $$ |      $$\\ $$$$$$$\\   $$$$$$\\  $$$$$$\\   $$$$$$\\  $$\\   $$\\ \n"); Sleep(100);
-	printf("$$$$$$$\\  $$\\$$\\$$ | $$$$$$  |$$$$$$\\ $$$$$$\\ $$ |      $$ |$$  __$$\\ $$  __$$\\ \\____$$\\ $$  __$$\\ $$ |  $$ |\n"); Sleep(100);
-	printf("$$  __$$\\ $$ \\$$$$ |$$  __$$< \\______|\\______|$$ |      $$ |$$ |  $$ |$$ |  \\__|$$$$$$$ |$$ |  \\__|$$ |  $$ |\n"); Sleep(100);
-	printf("$$ /  $$ |$$ |\\$$$ |$$ /  $$ |                $$ |      $$ |$$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |  $$ |\n"); Sleep(100);
-	printf(" $$$$$$  |\\$$$$$$  /\\$$$$$$  |                $$$$$$$$\\ $$ |$$$$$$$  |$$ |     \\$$$$$$$ |$$ |      \\$$$$$$$ |\n"); Sleep(100);
-	printf(" \\______/  \\______/  \\______/                 \\________|\\__|\\_______/ \\__|      \\_______|\\__|       \\____$$ |\n"); Sleep(100);
-	printf("                                                                                                   $$\\   $$ |\n"); Sleep(100);
-	printf("                                                                                                   \\$$$$$$  |\n"); Sleep(100);
-	printf("                                                                                                    \\______/ \n"); Sleep(100);
+	printf("\n");
+	printf("   $$$$$$\\   $$$$$$\\   $$$$$$\\                  $$\\       $$\\ $$\\                                              \n"); Sleep(100);
+	printf("  $$  __$$\\ $$$ __$$\\ $$  __$$\\                 $$ |      \\__|$$ |                                             \n"); Sleep(100);
+	printf("  $$ /  \\__|$$$$\\ $$ |$$ /  $$ |                $$ |      $$\\ $$$$$$$\\   $$$$$$\\  $$$$$$\\   $$$$$$\\  $$\\   $$\\ \n"); Sleep(100);
+	printf("  $$$$$$$\\  $$\\$$\\$$ | $$$$$$  |$$$$$$\\ $$$$$$\\ $$ |      $$ |$$  __$$\\ $$  __$$\\ \\____$$\\ $$  __$$\\ $$ |  $$ |\n"); Sleep(100);
+	printf("  $$  __$$\\ $$ \\$$$$ |$$  __$$< \\______|\\______|$$ |      $$ |$$ |  $$ |$$ |  \\__|$$$$$$$ |$$ |  \\__|$$ |  $$ |\n"); Sleep(100);
+	printf("  $$ /  $$ |$$ |\\$$$ |$$ /  $$ |                $$ |      $$ |$$ |  $$ |$$ |     $$  __$$ |$$ |      $$ |  $$ |\n"); Sleep(100);
+	printf("   $$$$$$  |\\$$$$$$  /\\$$$$$$  |                $$$$$$$$\\ $$ |$$$$$$$  |$$ |     \\$$$$$$$ |$$ |      \\$$$$$$$ |\n"); Sleep(100);
+	printf("   \\______/  \\______/  \\______/                 \\________|\\__|\\_______/ \\__|      \\_______|\\__|       \\____$$ |\n"); Sleep(100);
+	printf("                                                                                                     $$\\   $$ |\n"); Sleep(100);
+	printf("                                                                                                     \\$$$$$$  |\n"); Sleep(100);
+	printf("                                                                                                      \\______/ \n"); Sleep(100);
 	int mode;
 	char ID[MAX];
 	while (state != EXIT) {
@@ -268,8 +275,8 @@ void Init() {
 				printBook(book);
 				break;
 			}
-					case 2:	//登录系统（学生）
-					printf("请输入你的学号");
+					case 2:	//登录系统（学生&教师）
+					printf("请输入你的ID：");
 					scanf("%s", ID);
 					if (Login(ID,"stu")) {
 						loginInit(ID,head);
@@ -278,13 +285,13 @@ void Init() {
 						printf("登录失败\n");
 					}
 					break;
-			case 3: {	//登录系统（教师）
+			case 3: {	//登录系统（管理员）
 				char ID[MAX];
-				printf("请输入你的教师号\n");
+				printf("请输入你的管理员ID：\n");
 				scanf("%s", ID);
 				if (Login(ID,"tea"))
 				{
-					loginInitTeacher(ID, head);
+					loginInitAdmin(ID, head);
 				}
 				else {
 					printf("登录失败\n");

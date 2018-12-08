@@ -7,11 +7,11 @@
 
 
 //教师信息
-typedef struct Teacher {
+typedef struct Admin {
 	char ID[MAX];
 	char name[MAX];
 	int priority;
-}Teacher;
+}Admin;
 
 
 //学生信息
@@ -36,7 +36,7 @@ Person persons[5] = {
 
 
 int lengthT = 1;
-Teacher teachers[1] = {
+Admin Admins[1] = {
 	{"1","Tea1",0}
 };
 
@@ -47,10 +47,10 @@ Teacher teachers[1] = {
 *@return:
 *@others:
 */
-void printTeacher(Teacher* teacher) {
+void printAdmin(Admin* Admin) {
 	printf("-----------------------------\n");
-	printf("ID:%3s\n", teacher->ID);
-	printf("姓名:%3s\n", teacher->name);
+	printf("ID:%3s\n", Admin->ID);
+	printf("姓名:%3s\n", Admin->name);
 	printf("-----------------------------\n");
 }
 
@@ -91,7 +91,7 @@ bool Login(char* ID, const char* type) {
 	}
 	else if (strcmp(type, "tea") == 0) {
 		for (int i = 0; i < lengthT; i++) {
-			if (strcmp(teachers[i].ID, ID) == 0) {
+			if (strcmp(Admins[i].ID, ID) == 0) {
 				printf("登录成功!\n");
 				return true;
 			}
@@ -123,7 +123,7 @@ int getIndex(char* ID, const char type[]) {
 	}
 	else if (strcmp(type, "tea") == 0) {
 		for (int i = 0; i < lengthT; i++) {
-			if (strcmp(teachers[i].ID, ID) == 0) {
+			if (strcmp(Admins[i].ID, ID) == 0) {
 				return i;
 			}
 		}

@@ -39,6 +39,9 @@
     <ClInclude Include="File.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="WrongInput.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
