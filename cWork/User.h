@@ -5,6 +5,7 @@
 #include<stdlib.h>
 #include"List.h"
 #include "GLOBAL.h"
+#include"userlist.h"
 
 
 //管理员信息
@@ -26,9 +27,14 @@ typedef struct Person {
 	char password[MAX];  //用户密码
 	int count;		//用户已借书目
 	pBook borrow[BRORROW];  //用户借阅书本集合
+
 	int overTime;	//超时书本
 }Person, *pPerson;
 
+typedef struct PersonNode {
+	pPerson person;
+	struct PersonNode* next;
+}personNode, *pPersonNode;
 
 int length = 5;
 Person persons[100];
@@ -70,37 +76,42 @@ void printPerson(pPerson person) {
 	printf("借阅超时书本:%3d\n", person->overTime);
 	printf("------------------------------\n");
 }
-
-
 /*
-*@method: 登录系统函数
+*@method: 学生登录系统函数
 *@param:
 *@return:
 *@others:
 */
-bool Login(char* ID, char*password,const char* type) {
-	if (strcmp(type, "stu") == 0)
-	{
-		for (int i = 0; i < length; i++) {
-			if ((strcmp(persons[i].ID, ID) ||strcmp(persons[i].password,password)) == 0) {
-				printf("登录成功!\n");
-				return true;
-			}
+bool studentLogin(char*ID, char*password, pPersonNode studentHead) {
+	pPersonNode p = studentHead->next;
+	while (p->next != NULL && strcmp(p->next->person->ID, ID))
+		p = p->next;
+	if (p != NULL) {
+		if (strcmp(p->person->password, password)==0) {
+			printf("登录成功!\n");
+			return true;
 		}
-		return false;
+		else
+			return false;
 	}
-	else if (strcmp(type, "tea") == 0) {
-		for (int i = 0; i < lengthT; i++) {
-			if ((strcmp(Admins[i].ID, ID)||strcmp(Admins[i].password,password)) == 0) {
-				printf("登录成功!\n");
-				return true;
-			}
+	else
+		return false;
+}
+/*
+*@method: 管理员登录系统函数
+*@param:
+*@return:
+*@others:
+*/
+bool adminLogin(char* ID, char*password) {
+
+	for (int i = 0; i < lengthT; i++) {
+		if ((strcmp(Admins[i].ID, ID) || strcmp(Admins[i].password, password)) == 0) {
+			printf("登录成功!\n");
+			return true;
 		}
-		return false;
 	}
-	else {
-		return false;
-	}
+	return false;
 }
 
 

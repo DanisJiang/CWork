@@ -10,6 +10,7 @@ typedef struct Info {
 	char ID[MAX];
 	int index;
 	bool available;
+	struct tm time;
 }*pInfo, Info;
 
 typedef struct BookTotal {
@@ -202,7 +203,7 @@ void Insert(PNode List) {
 	}
 	PNode tmp = (PNode)malloc(sizeof(PNode));
 	if (tmp == NULL) {
-		printf("分配失败!\n");
+		printf("分配失败！\n");
 		exit(-1);
 	}
 	//插入节点

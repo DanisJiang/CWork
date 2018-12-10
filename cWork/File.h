@@ -5,6 +5,7 @@
 #include"List.h"
 #include"GLOBAL.h"
 #include<io.h>
+#include"userlist.h"
 
 
 /*
@@ -15,12 +16,12 @@
 */
 PNode initializeBook()
 {
-	// 书本属性定义开始
+	/* 书本属性定义开始
 	char ID[MAX], publisher[MAX], author[MAX], name[MAX], date[MAX];
 	int  count;
 	double price;
 	int type;  // 图书种类
-	// 书本属性定义结束
+	*/ //书本属性定义结束
 	// 文件读取定义开始
 	char *line, *record;
 	char buffer[1024];
@@ -145,6 +146,20 @@ void saveBook(PNode head)
 	printf("已成功保存%d本书！\n", i);
 
 	fclose(csvBook);
+}
+/*
+*@method: 初始化学生系统
+*@param: 无
+*@return: 学生链表的头指针
+*@others:
+*/
+pPersonNode intializeStudent() {
+	pPersonNode head;
+	if (_access("Student.csv", 0))  // 未查找到文件
+		head = creatStudent();
+	else
+		head = NULL;
+	return head;
 }
 
 /*
