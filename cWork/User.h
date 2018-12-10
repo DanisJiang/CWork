@@ -3,6 +3,7 @@
 #include<stdio.h>
 #include <string.h>
 #include<stdlib.h>
+#include"List.h"
 #include "GLOBAL.h"
 
 
@@ -20,6 +21,8 @@ typedef struct Person {
 	int priority;  //优先级
 	char ID[MAX];  //用户ID
 	char name[MAX];  //用户姓名
+	char classes[MAX];  //用户班级
+	char studentID[MAX];  //学号
 	char password[MAX];  //用户密码
 	int count;		//用户已借书目
 	pBook borrow[BRORROW];  //用户借阅书本集合

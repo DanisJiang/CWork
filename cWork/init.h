@@ -42,7 +42,7 @@ void initPrint() {
 	printf("图书管理系统V1.1\n");  Sleep(10);
 	printf("请选择功能:\n");  Sleep(10);
 	printf("1.查询书本\n"); Sleep(10);
-	printf("2.登录(学生&教师通道)\n"); Sleep(10);
+	printf("2.登录(学生通道)\n"); Sleep(10);
 	printf("3.登录(管理员通道)\n");  Sleep(10);
 	printf("4.开发者信息\n");  Sleep(10);
 	printf("5.保存数据并退出.（直接关闭程序将丢失数据！！！）\n"); Sleep(10);
@@ -146,7 +146,7 @@ void loginInitAdmin(char* ID,PNode List) {
 			Delete(List, ID);
 			break;
 		}	
-		case 5: {	//查看学生&教师信息
+		case 5: {	//查看学生信息
 			char ID[MAX];
 			printf("请输入学生ID：\n");
 			scanf("%s", ID);
@@ -173,7 +173,7 @@ void loginInitAdmin(char* ID,PNode List) {
 
 
 /*
-*@method: 学生&教师登录主函数
+*@method: 学生登录主函数
 *@param:
 *@return:
 *@others:
@@ -181,11 +181,10 @@ void loginInitAdmin(char* ID,PNode List) {
 void loginInit(char* ID,PNode List) {
 	int i = getIndex(ID,"stu");
 	Person person = persons[i];
-	printf("学生or教师%s登录成功!\n", persons[i].name);
+	printf("学生%s登录成功!\n", persons[i].name);
 	state = LOGINSTU;
 	int mode;
-	while (state == LOGINSTU)
-	{
+	while (state == LOGINSTU){
 		loginInitPrint();
 		scanf("%d", &mode);
 		while (mode <= 0 || mode >= 9) {
@@ -213,8 +212,7 @@ void loginInit(char* ID,PNode List) {
 				int flag;
 				printf("是否借阅该书?(1:是,0:否)\n");
 				scanf("%d", &flag);
-				if (flag == 1)
-				{
+				if (flag == 1){
 					Borrow(&person, book);
 				}
 			}
