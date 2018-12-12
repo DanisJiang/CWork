@@ -3,9 +3,11 @@
 #include<stdio.h>
 #include <string.h>
 #include<stdlib.h>
+#include"userlist.h"
 #include"List.h"
 #include "GLOBAL.h"
-#include"userlist.h"
+
+
 
 
 //管理员信息

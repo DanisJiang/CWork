@@ -55,6 +55,7 @@ void printStudent(pPerson person) {
 	printf("学号：%14s\n", person->studentID); Sleep(10);
 	printf("密码：%14s\n", person->password); Sleep(10);
 	printf("目前借阅%d本书\n", person->count); Sleep(10);
+	printf("-------------------------------------------\n"); Sleep(10);
 	//还需要 超时书本 需要罚款金额
 }
 
@@ -122,8 +123,8 @@ void studentInsert(pPersonNode studentList) {
 */
 void studentDelete(pPersonNode studentList, char *ID) {
 	pPersonNode p = studentList;
-	while (p->next != NULL && strcmp(p->person->ID,ID)!= 0) {
-		p->next;
+	while (p->next != NULL && (strcmp(p->next->person->ID,ID)!=0)) {
+		p=p->next;
 	}
 	printStudent(p->next->person);
 	printf("确认删除？\n");
@@ -162,9 +163,9 @@ void studentClear(pPersonNode studentList) {
 	printf("账号清理完成\n");
 }
 /*
-*@method: 搜索图书函数
-*@param: studentList:待搜索的链表;ID:待搜索图书的编号
-*@return: 搜索到的图书节点
+*@method: 搜索学生函数
+*@param: studentList:待搜索的链表;ID:待搜索学生的ID
+*@return: 搜索到的学生节点
 *@others:
 */
 pPerson SearchStudent(pPersonNode studentList, char *ID) {
@@ -193,4 +194,18 @@ pPersonNode creatStudent() {
 	_itoa(0, head->person->ID, 10);
 	head->next = NULL;
 	return head;
+}
+/*
+*@method: 获取用户的index
+*@param:
+*@return:
+*@others:
+*/
+void getStudentIndex(char *ID, pPersonNode studentHead) {
+	pPersonNode p = studentHead->next;
+	while (p->next != NULL && strcmp(p->next->person->ID, ID))
+	{
+		p = p->next;
+	}
+	printStudent(p->person);
 }

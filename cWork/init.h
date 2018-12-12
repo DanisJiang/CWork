@@ -27,8 +27,10 @@ void AdminPrint() {
 	printf("3.添加图书\n"); Sleep(10);
 	printf("4.删除图书\n"); Sleep(10);
 	printf("5.查看学生\n"); Sleep(10);
-	printf("6.查看管理员信息\n"); Sleep(10);
-	printf("7.登出\n"); Sleep(10);
+	printf("6.查看所有学生\n"); Sleep(10);
+	printf("7.删除学生\n"); Sleep(10);
+	printf("8.查看管理员信息\n"); Sleep(10);
+	printf("9.登出\n"); Sleep(10);
 	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"); Sleep(10);
 }
 
@@ -107,7 +109,7 @@ void printAuthor() {
 *@return:
 *@others:
 */
-void loginInitAdmin(char* ID,PNode List) {
+void loginInitAdmin(char* ID,PNode List,pPersonNode studentList) {
 	int i = getIndex(ID,"tea");
 	Person person = persons[i];
 	Admin Admin = Admins[i];
@@ -152,16 +154,29 @@ void loginInitAdmin(char* ID,PNode List) {
 			char ID[MAX];
 			printf("请输入学生ID：\n");
 			scanf("%s", ID);
-			int i = getIndex(ID, "stu");
-			Person person = persons[i];
-			printPerson(&person);
+			getStudentIndex(ID, studentList);
 			break;
 		}
-		case 6: {  //查看管理员信息
+		case 6: { //查看所有学生信息
+			pPersonNode p = studentList->next;
+			while (p != NULL) {
+				printStudent(p->person);
+				p = p->next;
+			}
+			break;
+		}
+		case 7: {  //删除学生
+			printf("请输入学生ID：");
+			char ID[MAX];
+			scanf("%20s", ID);
+			studentDelete(studentList, ID);
+			break;
+		}
+		case 8: {  //查看管理员信息
 			printAdmin(&Admin);
 			break;
 		}
-		case 7: {	//登出系统
+		case 9: {	//登出系统
 			printf("登出\n");
 			state = LOGOUT;
 			break;
@@ -321,7 +336,7 @@ void Init() {
 			scanf("%s", password);
 			if (adminLogin(ID, password))
 			{
-				loginInitAdmin(ID, head);
+				loginInitAdmin(ID, head, studentHead);
 			}
 			else {
 				printf("登录失败\n");
