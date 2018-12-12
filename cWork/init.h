@@ -43,7 +43,7 @@ void AdminPrint() {
 */
 void initPrint() {
 	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"); Sleep(10);
-	printf("图书管理系统V1.1\n");  Sleep(10);
+	printf("图书管理系统V1.4\n");  Sleep(10);
 	printf("请选择功能:\n");  Sleep(10);
 	printf("1.查询书本\n"); Sleep(10);
 	printf("2.登录(学生通道)\n"); Sleep(10);
