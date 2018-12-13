@@ -18,7 +18,7 @@
 *@others:
 */
 void newStudent(pPerson person, char ID[MAX], char name[MAX], char classes[MAX], char studentID[MAX],
-	char password[MAX], int count, pBook borrow[BRORROW],int overTime) {
+	char password[MAX], int count, pBook borrow[BORROW],int overTime) {
 	strcpy(person->ID, ID);
 	strcpy(person->name,name);
 	strcpy(person->classes, classes);
@@ -26,11 +26,10 @@ void newStudent(pPerson person, char ID[MAX], char name[MAX], char classes[MAX],
 	strcpy(person->password, password);
 	person->priority = 0;
 	person->count=0;
-	person->borrow[0] = NULL;
-	person->borrow[1] = NULL;
-	person->borrow[2] = NULL;
-	person->borrow[3] = NULL;
-	person->borrow[4] = NULL;
+	for (int i = 0; i < BORROW; i++) {
+		person->borrowBook[i].borrowTime = { 0,0,0 };
+		strcpy(person->borrowBook[i].ID, "0");
+	}
 	person->overTime = 0;
 }
 

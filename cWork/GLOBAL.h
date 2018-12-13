@@ -1,11 +1,12 @@
 #pragma once
+#include"Date.h"
 /*全局变量及宏定义*/
 
 
 #define MAX 20			//最长名字字段
 #define MAXLENGTH 10	//最多存放图书
 #define MAXPERSON 20	//最多学生数量
-#define BRORROW 5		//学生最多借阅图书本数
+#define BORROW 5		//学生最多借阅图书本数
 #define TIME 30			//单次借阅最长事件
 #define RENEWTIMES 2	//单本图书最长续借次数
 

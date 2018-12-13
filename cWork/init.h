@@ -4,11 +4,11 @@
 #include<stdio.h>
 #include <string.h>
 #include<stdlib.h>
+#include"File.h"
 #include "GLOBAL.h"
 #include"userlist.h"
 #include "List.h"
 #include "User.h"
-#include "File.h"
 
 int state = LOGOUT; //当前状态
 
@@ -253,7 +253,7 @@ void loginInit(char* ID,pPersonNode studentList,PNode List) {
 			char id[MAX];
 			printf("请输入你要归还的图书编号：\n");
 			scanf("%s", id);
-			if (returnBook(p->person, id))
+			if (returnBook(p->person, id, List))
 				printf("还书成功\n");
 			else {
 				printf("还书失败!\n");

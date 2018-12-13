@@ -141,7 +141,7 @@ pPersonNode initializeSdtudent()
 		record = strtok(line, ",");
 		sscanf(record, "%d", &pNew->person->count);  //ÒÑ½èÊıÄ¿
 		record = strtok(line, ",");
-
+	}
 	return head;
 }
 

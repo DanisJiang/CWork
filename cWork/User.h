@@ -4,9 +4,9 @@
 #include <string.h>
 #include<stdlib.h>
 #include"userlist.h"
-#include"List.h"
+#include "List.h"
 #include "GLOBAL.h"
-
+#include"Date.h"
 
 
 
@@ -18,6 +18,10 @@ typedef struct Admin {
 	int priority;
 }Admin;
 
+typedef struct borrow {
+	char ID[MAX];
+	date borrowTime;
+};
 
 //用户信息
 typedef struct Person {
@@ -28,7 +32,7 @@ typedef struct Person {
 	char studentID[MAX];  //学号
 	char password[MAX];  //用户密码
 	int count;		//用户已借书目
-	Book borrow[BRORROW];  //用户借阅书本集合
+	borrow borrowBook[BORROW];  //用户借阅书本集合
 
 	int overTime;	//超时书本
 }Person, *pPerson;
@@ -74,7 +78,7 @@ void printPerson(pPerson person) {
 	printf("ID:%3s\n", person->ID);
 	printf("姓名:%3s\n", person->name);
 	printf("已借阅书本:%3d\n", person->count);
-	printf("可借阅书本:%3d\n", BRORROW - person->count);
+	printf("可借阅书本:%3d\n", BORROW - person->count);
 	printf("借阅超时书本:%3d\n", person->overTime);
 	printf("------------------------------\n");
 }
@@ -155,9 +159,19 @@ int getIndex(char* ID, const char type[]) {
 *@return:
 *@others:
 */
-void Borrow(pPerson person, PBook book) {
+void Borrow(pPerson person, pBook book) {
 	extern date today;
-	person->borrow[person->count] = book;
+	int k = 0;
+	while (strcmp(person->borrowBook[k].ID, "0")) {
+		if (k > BORROW) {
+			printf("你现在借阅书籍已满，不可借阅！\n");
+			return;
+		}
+			
+			k++;
+	}
+	strcpy(person->borrowBook[k].ID, book->ID);
+	person->borrowBook[k].borrowTime = today;
 	book->left--;
 	book->total++;
 	int t = book->count - book->left;
@@ -166,9 +180,7 @@ void Borrow(pPerson person, PBook book) {
 		{
 			strcpy(book->info[i].ID, person->ID);
 			book->info[i].available = false;
-			book->info[i].borrowDate.year = today.year;
-			book->info[i].borrowDate.month = today.month;
-			book->info[i].borrowDate.day = today.day;
+			book->info[i].borrowDate = today;
 			break;
 		}
 	}
@@ -183,27 +195,29 @@ void Borrow(pPerson person, PBook book) {
 *@return: 还书是否成功
 *@others:
 */
-bool returnBook(pPerson person, char ID[MAX]) {
-	for (int i = 0; i <= person->count; i++) {
-		pBook book = person->borrow[i];
-		int t = book->count - book->left;
-		if (strcmp(book->ID , ID)==0)
-		{
-			for (int i = 0; i <= t; i++) {
-				if (strcmp(book->info[i].ID,ID)==0)
-				{
-					book->info[i].available = true;
-					strcpy(book->info[i].ID, "0");
-					book->info[i].borrowDate.year = 0;
-					book->info[i].borrowDate.month = 0;
-					book->info[i].borrowDate.day = 0;
-				}
-			}
-			book->left++;
-			person->count--;
-			person->borrow[i] = NULL;
-			return true;
+bool returnBook(pPerson person, char ID[MAX], PNode bookList) {
+	pBook book = SearchBook(bookList, ID);
+	int i = 0;
+	while (strcmp(book->info[i].ID, person->ID)) {
+		i++;
+		if (i > MAXLENGTH) {
+			printf("你没有借阅此书！\n");
+			return false;
 		}
 	}
-	return false;
+	i--;
+	book->info[i].available = true;
+	strcpy(book->info[i].ID, "0");
+	book->info[i].borrowDate.year = 0;
+	book->info[i].borrowDate.month = 0;
+	book->info[i].borrowDate.day = 0;
+	book->left++;
+	person->count--;
+	int k = 0;
+	while (strcmp(person->borrowBook[k].ID, ID)) {
+		k++;
+	}
+	person->borrowBook[k].borrowTime = { 0,0,0 };
+	strcpy(person->borrowBook[k].ID, "0");
+	return true;
 }
