@@ -1,13 +1,4 @@
 #pragma once
-#include<malloc.h>
-#include<stdio.h>
-#include <string.h>
-#include<stdlib.h>
-#include"userlist.h"
-#include "List.h"
-#include "GLOBAL.h"
-#include"Date.h"
-
 
 
 //管理员信息
@@ -21,6 +12,7 @@ typedef struct Admin {
 typedef struct borrow {
 	char ID[MAX];
 	date borrowTime;
+	int DDL;
 };
 
 //用户信息
@@ -90,7 +82,7 @@ void printPerson(pPerson person) {
 */
 bool studentLogin(char*ID, char*password, pPersonNode studentHead) {
 	pPersonNode p = studentHead->next;
-	while (p->next != NULL && strcmp(p->next->person->ID, ID))
+	while (p != NULL && strcmp(p->person->ID, ID))
 		p = p->next;
 	if (p != NULL) {
 		if (strcmp(p->person->password, password)==0) {

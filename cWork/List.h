@@ -1,17 +1,11 @@
 ﻿#pragma once
-#include<malloc.h>
-#include<stdio.h>
-#include <string.h>
-#include<stdlib.h>
-#include<Windows.h>
-#include "GLOBAL.h"
-#include "Date.h"
+#include"GLOBAL.h"
 
 typedef struct Info {
 	char ID[MAX];
 	int index;
 	bool available;
-	struct date borrowDate;
+	date borrowDate;
 }*pInfo, Info;
 
 typedef struct BookTotal {

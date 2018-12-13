@@ -1,13 +1,5 @@
 #pragma once
-#include<malloc.h>
-#include<stdio.h>
-#include <string.h>
-#include<stdlib.h>
-#include<Windows.h>
-#include "GLOBAL.h"
-#include "User.h"
-#include"init.h"
-#include"List.h"
+
 
 
 
@@ -29,6 +21,7 @@ void newStudent(pPerson person, char ID[MAX], char name[MAX], char classes[MAX],
 	for (int i = 0; i < BORROW; i++) {
 		person->borrowBook[i].borrowTime = { 0,0,0 };
 		strcpy(person->borrowBook[i].ID, "0");
+		person->borrowBook[i].DDL = 0;
 	}
 	person->overTime = 0;
 }
@@ -54,6 +47,14 @@ void printStudent(pPerson person) {
 	printf("学号：%14s\n", person->studentID); Sleep(10);
 	printf("密码：%14s\n", person->password); Sleep(10);
 	printf("目前借阅%d本书\n", person->count); Sleep(10);
+	printf("目前超时%d本书\n", person->overTime); Sleep(10);
+	for (int i = 0; i < BORROW; i++) {
+		printf("书%dID：%s\n", i, person->borrowBook[i].ID);
+		if (person->borrowBook[i].DDL == 1)
+			printf("书本状态：超时\n");
+		else
+			printf("书本状态：未超时\n");
+	}
 	printf("-------------------------------------------\n"); Sleep(10);
 	//还需要 超时书本 需要罚款金额
 }
@@ -162,7 +163,6 @@ void studentClear(pPersonNode studentList) {
 	while (p->next != NULL) {
 		tmp = p->next;
 		free(p->person);
-		free(p);
 		p = tmp;
 	}
 	printf("账号清理完成\n");

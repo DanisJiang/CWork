@@ -1,14 +1,15 @@
 #pragma once
-#include<malloc.h>
 #include<Windows.h>
+#include"GLOBAL.h"
 #include<stdio.h>
+#include<malloc.h>
 #include <string.h>
 #include<stdlib.h>
 #include"File.h"
-#include "GLOBAL.h"
 #include"userlist.h"
 #include "List.h"
 #include "User.h"
+#include"Date.h"
 
 int state = LOGOUT; //当前状态
 
@@ -284,7 +285,8 @@ void loginInit(char* ID,pPersonNode studentList,PNode List) {
 void Init() {
 	extern date today;
 	PNode head = intializeProgram();
-	pPersonNode studentHead = intializeStudent();
+	pPersonNode studentHead = intializeStudentSystem();
+	intializeOvertimeBook(studentHead);
 	printf("初始化日期系统\n");
 	printf("年：");
 	scanf("%d",&today.year);
@@ -378,7 +380,7 @@ void Init() {
 			printAuthor();
 			break;
 		case 5: //退出程序
-			closeProgram(head);
+			closeProgram(head,studentHead);
 			state = EXIT;
 			break;
 		default:

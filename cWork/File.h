@@ -1,20 +1,13 @@
 #pragma once
-#include<stdio.h>
-#include<malloc.h>
-#include<string.h>
-#include"List.h"
 #include"GLOBAL.h"
 #include<io.h>
-#include"userlist.h"
-
-
 /*
 *@method: 初始化图书链表（有文件时）
 *@param: 无
 *@return: 图书链表的头指针
 *@others:
 */
-PNode initializeBook()
+PNode initializeBook(void)
 {
 	/* 书本属性定义开始
 	char ID[MAX], publisher[MAX], author[MAX], name[MAX], date[MAX];
@@ -100,7 +93,7 @@ PNode initializeBook()
 *@return: 图书链表的头指针
 *@others:
 */
-pPersonNode initializeSdtudent()
+pPersonNode intializeStudent()
 {
 	// 文件读取定义开始
 	char *line, *record;
@@ -127,21 +120,41 @@ pPersonNode initializeSdtudent()
 			printf("分配失败!\n");
 			exit(-1);
 		}
-		pNew->person = (pPerson)malloc(sizeof(Person)); //创建书本
+		pNew->person = (pPerson)malloc(sizeof(Person)); //创建账号
+		pNew->person->priority = 0;
 		record = strtok(line, ",");
 		strcpy(pNew->person->ID, record);  //ID
-		record = strtok(line, ",");
+		record = strtok(NULL, ",");
 		strcpy(pNew->person->name, record);  //姓名
-		record = strtok(line, ",");
+		record = strtok(NULL, ",");
 		strcpy(pNew->person->classes, record);  //班级
-		record = strtok(line, ",");
+		record = strtok(NULL, ",");
 		strcpy(pNew->person->studentID, record);  //学号
-		record = strtok(line, ",");
+		record = strtok(NULL, ",");
 		strcpy(pNew->person->password, record);  //密码
-		record = strtok(line, ",");
+		record = strtok(NULL, ",");
 		sscanf(record, "%d", &pNew->person->count);  //已借数目
-		record = strtok(line, ",");
+		for (int i = 0; i < BORROW; i++) {
+			record = strtok(NULL, ",");
+			strcpy(pNew->person->borrowBook[i].ID, record);
+			record = strtok(NULL, ",");
+			sscanf(record, "%d", &pNew->person->borrowBook[i].borrowTime.year);
+			record = strtok(NULL, ",");
+			sscanf(record, "%d", &pNew->person->borrowBook[i].borrowTime.month);
+			record = strtok(NULL, ",");
+			sscanf(record, "%d", &pNew->person->borrowBook[i].borrowTime.day);
+			record = strtok(NULL, ",");
+			sscanf(record, "%d", &pNew->person->borrowBook[i].DDL);
+		}
+		pNew->person->overTime = 0;
+		record = strtok(NULL, ",");
+		tail->next = pNew;
+		pNew->next = NULL;
+		tail = pNew;
+		sum++;
 	}
+	printf("-------------------------------------------\n"); Sleep(10);
+	printf("当前“608-Library”共有%d注册用户！\n", sum);
 	return head;
 }
 
@@ -196,18 +209,73 @@ void saveBook(PNode head)
 
 	fclose(csvBook);
 }
+
+/*
+*@method: 保存学生文件（程序退出时）
+*@param: 学生链表的头指针
+*@return: 无
+*@others:
+*/
+void saveStudent(pPersonNode head) {
+	FILE *csvStudent;
+	remove("Student.csv");
+	csvStudent = fopen("Student.csv", "w");
+	if (NULL == csvStudent)
+	{
+		printf("文件读取失败\n");
+		exit(0);
+	}
+	fprintf(csvStudent, "ID,姓名,班级,学号,密码,已借书目数量,");
+	fprintf(csvStudent, "书1ID,书1借阅年,书1借阅月,书1借阅日,");
+	fprintf(csvStudent, "书2ID,书2借阅年,书2借阅月,书2借阅日,");
+	fprintf(csvStudent, "书3ID,书3借阅年,书3借阅月,书3借阅日,");
+	fprintf(csvStudent, "书4ID,书4借阅年,书4借阅月,书4借阅日,");
+	fprintf(csvStudent, "书5ID,书5借阅年,书5借阅月,书5借阅日\n");
+	pPersonNode p = head->next;
+	int i = 0;
+	char tmp[MAX];
+	while (p != NULL)
+	{
+		fprintf(csvStudent, "%s,%s,%s,", p->person->ID, p->person->name, p->person->classes);
+		
+		_itoa(p->person->count, tmp, 10);
+		fprintf(csvStudent, "%s,%s,%s,", p->person->studentID, p->person->password, tmp);
+		for (int k = 0; k < BORROW; k++) {
+			fprintf(csvStudent, "%s,", p->person->borrowBook[k].ID);
+			_itoa(p->person->borrowBook[k].borrowTime.year, tmp, 10);
+			fprintf(csvStudent, "%s,", tmp);
+			_itoa(p->person->borrowBook[k].borrowTime.month, tmp, 10);
+			fprintf(csvStudent, "%s,", tmp);
+			_itoa(p->person->borrowBook[k].borrowTime.day, tmp, 10);
+			fprintf(csvStudent, "%s,", tmp);
+			_itoa(p->person->borrowBook[k].DDL, tmp, 10);
+			fprintf(csvStudent, "%s,", tmp);
+		}
+		fprintf(csvStudent, "\n");
+		p = p->next;
+		i++;
+	}
+	printf("已成功保存%d位用户！\n", i);
+
+	fclose(csvStudent);
+}
+
 /*
 *@method: 初始化学生系统
 *@param: 无
 *@return: 学生链表的头指针
 *@others:
 */
-pPersonNode intializeStudent() {
+pPersonNode intializeStudentSystem() {
 	pPersonNode head;
 	if (_access("Student.csv", 0))  // 未查找到文件
+	{
 		head = creatStudent();
+	}
 	else
-		head = NULL;
+		head = intializeStudent();
+	printf("-------------------------------------------\n"); Sleep(10);
+	printf("“608-Library”初始化完成！\n");
 	return head;
 }
 
@@ -236,8 +304,6 @@ PNode intializeProgram()
 	{
 		bookHead = Create();
 		Traverse(bookHead);
-		printf("-------------------------------------------\n"); Sleep(10);
-		printf("“608-Library”初始化完成！\n");
 
 	}
 	else  // 查找到文件，录入
@@ -255,8 +321,10 @@ PNode intializeProgram()
 *@return:
 *@others:
 */
-void closeProgram(PNode head)
+void closeProgram(PNode head,pPersonNode studentHead)
 {
 	saveBook(head); Sleep(200);
 	Clear(head); Sleep(200);
+	saveStudent(studentHead); Sleep(200);
+	studentClear(studentHead); Sleep(200);
 }
