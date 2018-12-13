@@ -73,9 +73,15 @@ PNode initializeBook()
 			sscanf(record, "%d", &pNew->book->info[k].available);
 			record = strtok(NULL, ",");  // ID
 			strcpy(pNew->book->info[k].ID, record);
+			record = strtok(NULL, ",");  // 借出年份
+			sscanf(record, "%d", &pNew->book->info[k].borrowDate.year);
+			record = strtok(NULL, ",");  // 借出月份
+			sscanf(record, "%d", &pNew->book->info[k].borrowDate.month);
+			record = strtok(NULL, ",");  // 借出日期
+			sscanf(record, "%d", &pNew->book->info[k].borrowDate.day);
 		}
-		int temp = strlen(pNew->book->info[9].ID)-1;
-		pNew->book->info[9].ID[temp] = '\0';
+		/*int temp = strlen(pNew->book->info[9].ID)-1;
+		pNew->book->info[9].ID[temp] = '\0';*/
 		record = strtok(NULL, ",");
 		tail->next = pNew;
 		pNew->next = NULL;
@@ -94,6 +100,50 @@ PNode initializeBook()
 *@return: 图书链表的头指针
 *@others:
 */
+pPersonNode initializeSdtudent()
+{
+	// 文件读取定义开始
+	char *line, *record;
+	char buffer[1024];
+	// 文件读取定义结束
+	FILE *csvBook;
+	csvBook = fopen("Student.csv", "r");
+	if (NULL == csvBook) {
+		printf("文件读取失败\n");
+		exit(-1);
+	}
+	pPersonNode head = (pPersonNode)malloc(sizeof(Node));
+	if (head == NULL) {
+		printf("分配失败!\n");
+		exit(-1);
+	}
+	pPersonNode tail = head;
+	tail->next = NULL;
+	line = fgets(buffer, sizeof(buffer), csvBook);  // 跳过第一行
+	int sum = 0;
+	while ((line = fgets(buffer, sizeof(buffer), csvBook)) != NULL) {
+		pPersonNode pNew = (pPersonNode)malloc(sizeof(personNode));
+		if (pNew == NULL) {
+			printf("分配失败!\n");
+			exit(-1);
+		}
+		pNew->person = (pPerson)malloc(sizeof(Person)); //创建书本
+		record = strtok(line, ",");
+		strcpy(pNew->person->ID, record);  //ID
+		record = strtok(line, ",");
+		strcpy(pNew->person->name, record);  //姓名
+		record = strtok(line, ",");
+		strcpy(pNew->person->classes, record);  //班级
+		record = strtok(line, ",");
+		strcpy(pNew->person->studentID, record);  //学号
+		record = strtok(line, ",");
+		strcpy(pNew->person->password, record);  //密码
+		record = strtok(line, ",");
+		sscanf(record, "%d", &pNew->person->count);  //已借数目
+		record = strtok(line, ",");
+
+	return head;
+}
 
 /*
 *@method: 保存图书文件（程序退出时）
@@ -111,11 +161,18 @@ void saveBook(PNode head)
 		printf("文件读取失败\n");
 		exit(0);
 	}
-	fprintf(csvBook, "书名,作者,编号,数量,出版商,发行日期,价格,类型,剩余数量,");
-	fprintf(csvBook, "总共借出次数,书1状态,书1ID,书2状态,");
-	fprintf(csvBook, "书2ID,书3状态,书3ID,书4状态,");
-	fprintf(csvBook, "书4ID,书5状态,书5ID,书6状态,书6ID,书7状态,书7ID,书8状态,");
-	fprintf(csvBook, "书8ID,书9状态,书9ID,书10状态,书10ID\n");  // 初始化表格文件
+	fprintf(csvBook, "书名,作者,编号,数量,出版商,发行日期,价格,类型,剩余数量,总共借出次数,");
+	fprintf(csvBook, "书1状态,书1ID,书1借出年,书1借出月,书1借出天,");
+	fprintf(csvBook, "书2状态,书2ID,书2借出年,书2借出月,书2借出天,");
+	fprintf(csvBook, "书3状态,书3ID,书3借出年,书3借出月,书3借出天,");
+	fprintf(csvBook, "书4状态,书4ID,书4借出年,书4借出月,书4借出天,");
+	fprintf(csvBook, "书5状态,书5ID,书5借出年,书5借出月,书5借出天,");
+	fprintf(csvBook, "书6状态,书6ID,书6借出年,书6借出月,书6借出天,");
+	fprintf(csvBook, "书7状态,书7ID,书7借出年,书7借出月,书7借出天,");
+	fprintf(csvBook, "书8状态,书8ID,书8借出年,书8借出月,书8借出天,");
+	fprintf(csvBook, "书9状态,书9ID,书9借出年,书9借出月,书9借出天,");
+	fprintf(csvBook, "书10状态,书10ID,书10借出年,书10借出月,书10借出天\n");
+ // 初始化表格文件
 	PNode p = head->next;
 	int i = 0;
 	while (p != NULL)
@@ -123,22 +180,14 @@ void saveBook(PNode head)
 		fprintf(csvBook, "%s,%s,%s,%d,%s,%s,%lf,%d,%d,%d,", p->book->name, p->book->author,
 			p->book->ID, p->book->count, p->book->publisher, 
 			p->book->date, p->book->price, p->book->type, p->book->left, p->book->total);
-		int temp[MAX];
-		for (int j = 0; j < MAX; j++) {
+		int temp[MAXLENGTH];
+		for (int j = 0; j < MAXLENGTH; j++) {
 			temp[j] = (int)p->book->info[j].available;
 		}
-		fprintf(csvBook, "%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s,%d,%s\n"
-			, temp[0], p->book->info[0].ID
-			, temp[1], p->book->info[1].ID
-			, temp[2], p->book->info[2].ID
-			, temp[3], p->book->info[3].ID
-			, temp[4], p->book->info[4].ID
-			, temp[5], p->book->info[5].ID
-			, temp[6], p->book->info[6].ID
-			, temp[7], p->book->info[7].ID
-			, temp[8], p->book->info[8].ID
-			, temp[9], p->book->info[9].ID
-		);
+		for (int j = 0; j < MAXLENGTH; j++) {
+			fprintf(csvBook, "%d,%s,%d,%d,%d,", temp[j], p->book->info->ID,p->book->info[j].borrowDate.year, p->book->info[j].borrowDate.month, p->book->info[j].borrowDate.day);
+		}
+		fprintf(csvBook, "\n");
 		p = p->next;
 		i++;
 		

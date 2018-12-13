@@ -5,12 +5,13 @@
 #include<stdlib.h>
 #include<Windows.h>
 #include "GLOBAL.h"
+#include "Date.h"
 
 typedef struct Info {
 	char ID[MAX];
 	int index;
 	bool available;
-	struct tm time;
+	struct date borrowDate;
 }*pInfo, Info;
 
 typedef struct BookTotal {
@@ -59,6 +60,9 @@ void createBook(pBook book, char ID[MAX], char name[MAX], char author[MAX], int 
 	for (int i = 0; i < MAXLENGTH; i++) {
 		book->info[i].available = true;
 		strcpy(book->info[i].ID,"0") ;
+		book->info[i].borrowDate.year = 0;
+		book->info[i].borrowDate.month = 0;
+		book->info[i].borrowDate.day = 0;
 	}
 }
 /*
@@ -145,18 +149,25 @@ PNode Create() {
 		scanf("%s", name);
 		printf("请输入第%d本书的作者：", i);
 		scanf("%s", author);
-		printf("请输入第%d本书的编号：", i);
-		scanf("%s", ID);
+		_itoa(++bookID,ID,10);
 		printf("请输入第%d本书的数量：", i);
 		scanf("%d", &count);
+		while (count <= 0 || count > 10) {
+			printf("每本书的库存应大于0小于10！\n");
+			scanf("%d", &count);
+		}
 		printf("请输入第%d本书出版商：", i);
 		scanf("%s", publisher);
 		printf("请输入第%d本书发行日期：", i);
 		scanf("%s", date);
 		printf("请输入第%d本书价格：", i);
 		scanf("%lf", &price);
-		printf("请输入第%d本书类型：", i);
+		printf("请输入第%d本书类型：(0.书籍 1.期刊 2.报刊）\n", i);
 		scanf("%d", &type);
+		while (type < 0 || type>2) {
+			printf("请输入0-2中的数字!\n");
+			scanf("%d", &type);
+		}
 		createBook(pNew->book, ID, name, author, count, price, date, type, publisher);
 		printf("第%d本书添加成功!\n", i);
 		tail->next = pNew;
@@ -271,7 +282,7 @@ void Clear(PNode List) {
 		free(p);
 		p = tmp;
 	}
-	printf("图书清理完成\n");
+	printf("应用内存清理完成\n");
 }
 /*
 *@method: 搜索图书函数

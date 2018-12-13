@@ -28,7 +28,7 @@ typedef struct Person {
 	char studentID[MAX];  //学号
 	char password[MAX];  //用户密码
 	int count;		//用户已借书目
-	pBook borrow[BRORROW];  //用户借阅书本集合
+	Book borrow[BRORROW];  //用户借阅书本集合
 
 	int overTime;	//超时书本
 }Person, *pPerson;
@@ -155,7 +155,8 @@ int getIndex(char* ID, const char type[]) {
 *@return:
 *@others:
 */
-void Borrow(pPerson person, pBook book) {
+void Borrow(pPerson person, PBook book) {
+	extern date today;
 	person->borrow[person->count] = book;
 	book->left--;
 	book->total++;
@@ -165,6 +166,10 @@ void Borrow(pPerson person, pBook book) {
 		{
 			strcpy(book->info[i].ID, person->ID);
 			book->info[i].available = false;
+			book->info[i].borrowDate.year = today.year;
+			book->info[i].borrowDate.month = today.month;
+			book->info[i].borrowDate.day = today.day;
+			break;
 		}
 	}
 	person->count++;
@@ -188,7 +193,10 @@ bool returnBook(pPerson person, char ID[MAX]) {
 				if (strcmp(book->info[i].ID,ID)==0)
 				{
 					book->info[i].available = true;
-					strcpy(book->info[i].ID, "\0");
+					strcpy(book->info[i].ID, "0");
+					book->info[i].borrowDate.year = 0;
+					book->info[i].borrowDate.month = 0;
+					book->info[i].borrowDate.day = 0;
 				}
 			}
 			book->left++;

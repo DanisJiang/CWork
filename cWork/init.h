@@ -110,6 +110,7 @@ void printAuthor() {
 *@others:
 */
 void loginInitAdmin(char* ID,PNode List,pPersonNode studentList) {
+	extern date today;
 	int i = getIndex(ID,"tea");
 	Person person = persons[i];
 	Admin Admin = Admins[i];
@@ -120,7 +121,7 @@ void loginInitAdmin(char* ID,PNode List,pPersonNode studentList) {
 	{
 		AdminPrint();
 		scanf("%d", &mode);
-		while (mode <= 0 || mode >= 9) {
+		while (mode <= 0 || mode > 9) {
 			getchar();
 			printf("请输入数字！\n");
 			scanf("%d", &mode);
@@ -159,9 +160,14 @@ void loginInitAdmin(char* ID,PNode List,pPersonNode studentList) {
 		}
 		case 6: { //查看所有学生信息
 			pPersonNode p = studentList->next;
-			while (p != NULL) {
-				printStudent(p->person);
-				p = p->next;
+			if (p == NULL) {
+				printf("当前没有学生账户\n");
+			}
+			else {
+				while (p != NULL) {
+					printStudent(p->person);
+					p = p->next;
+				}
 			}
 			break;
 		}
@@ -196,6 +202,7 @@ void loginInitAdmin(char* ID,PNode List,pPersonNode studentList) {
 *@others:
 */
 void loginInit(char* ID,pPersonNode studentList,PNode List) {
+	extern date today;
 	pPersonNode p = studentList->next;
 	while (p->next != NULL && strcmp(p->next->person->ID, ID))
 		p = p->next;
@@ -275,8 +282,30 @@ void loginInit(char* ID,pPersonNode studentList,PNode List) {
 *@others:
 */
 void Init() {
+	extern date today;
 	PNode head = intializeProgram();
 	pPersonNode studentHead = intializeStudent();
+	printf("初始化日期系统\n");
+	printf("年：");
+	scanf("%d",&today.year);
+	while (today.year <= 2000 || today.year >= 3000) {
+		printf("请输入正确的年份！\n");
+		scanf("%d", &today.year);
+	}
+	printf("月：");
+	scanf("%d", &today.month);
+	while (today.month <= 0 || today.month > 12) {
+		printf("请输入正确的月份！\n");
+		scanf("%d", &today.month);
+	}
+	printf("日：");
+	scanf("%d", &today.day);
+	while (today.day <= 0 || today.day > 31) {
+		printf("请输入正确的日期！\n");
+		scanf("%d", &today.day);
+	}
+	printf("%d,%d,%d\n", today.year, today.month, today.day);
+	printf("日期系统初始化完成！\n");
 	int mode;
 	char ID[MAX];
 	char password[MAX];

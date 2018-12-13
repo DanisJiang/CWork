@@ -35,3 +35,5 @@ struct tm {
 	int tm_yday;	  /* 从每年的1月1日开始的天数 – 取值区间为[0,365]，其中0代表1月1日，1代表1月2日，以此类推 */
 };
 
+int bookID = 0; 
+date today;

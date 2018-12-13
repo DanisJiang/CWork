@@ -126,25 +126,31 @@ void studentDelete(pPersonNode studentList, char *ID) {
 	while (p->next != NULL && (strcmp(p->next->person->ID,ID)!=0)) {
 		p=p->next;
 	}
-	printStudent(p->next->person);
-	printf("确认删除？\n");
-	printf("1.是 2.否\n");
-	int i = 0;
-	scanf("%d", &i);
-	if (1 == i) {
-		if (p->next->person->count > 0) {
-			printf("该学生仍有书未归还！删除账号失败！！！\n");
-			return;
+	if (p->next != NULL) {
+		printStudent(p->next->person);
+		printf("确认删除？\n");
+		printf("1.是 2.否\n");
+		int i = 0;
+		scanf("%d", &i);
+		if (1 == i) {
+			if (p->next->person->count > 0) {
+				printf("该学生仍有书未归还！删除账号失败！！！\n");
+				return;
+			}
+			pPersonNode tmp = p;
+			p = p->next;
+			tmp->next = p->next;
+			free(p->person);
+			//free(p);
+			printf("删除账号成功！\n");
 		}
-		pPersonNode tmp = p;
-		p = p->next;
-		tmp->next = p->next;
-		free(p->person);
-		free(p);
-		printf("删除账号成功！\n");
+		else
+			return;
 	}
-	else
+	else {
+		printf("没有找到此学生！\n");
 		return;
+	}
 }
 /*
 *@method: 清空学生链表
