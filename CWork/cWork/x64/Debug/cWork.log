@@ -1,0 +1,4 @@
+﻿  cWork.cpp
+c:\users\danis\downloads\cwork-78fbb8198b400e296131ce09af0814ec61faab8f\cwork\user.h(25): warning C4091: “typedef ”: 没有声明变量时忽略“borrow”的左侧
+c:\users\danis\downloads\cwork-78fbb8198b400e296131ce09af0814ec61faab8f\cwork\file.h(73): warning C4477: “sscanf”: 格式字符串“%d”需要类型“int *”的参数，但可变参数 1 拥有了类型“bool *”
+  cWork.vcxproj -> C:\Users\danis\Downloads\CWork-78fbb8198b400e296131ce09af0814ec61faab8f\x64\Debug\cWork.exe
