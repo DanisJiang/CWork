@@ -1,15 +1,14 @@
 #pragma once
-#include<Windows.h>
-#include"GLOBAL.h"
-#include<stdio.h>
 #include<malloc.h>
+#include<Windows.h>
+#include<stdio.h>
 #include <string.h>
 #include<stdlib.h>
 #include"File.h"
+#include "GLOBAL.h"
 #include"userlist.h"
 #include "List.h"
 #include "User.h"
-#include"Date.h"
 
 int state = LOGOUT; //当前状态
 
@@ -31,7 +30,8 @@ void AdminPrint() {
 	printf("6.查看所有学生\n"); Sleep(10);
 	printf("7.删除学生\n"); Sleep(10);
 	printf("8.查看管理员信息\n"); Sleep(10);
-	printf("9.登出\n"); Sleep(10);
+	printf("9.设置参数\n"); Sleep(10);
+	printf("10.登出\n"); Sleep(10);
 	printf(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>\n"); Sleep(10);
 }
 
@@ -103,6 +103,40 @@ void printAuthor() {
 	printf("                                                                                              \\/__/ \n"); Sleep(100);
 }
 
+/*
+*@method: 设置参数
+*@param:
+*@return:
+*@others:
+*/
+void set(void) {
+	extern int DDLTime;
+	extern double penalty;
+	int mode;
+	printf("1.设置最长借阅天数\n");
+	printf("2.设置罚款金额倍率\n");
+	scanf("%d", &mode);
+	while (mode <= 0 || mode > 2) {
+		getchar();
+		printf("请输入数字！\n");
+		scanf("%d", &mode);
+	}
+	switch (mode) {
+	case 1: {
+		printf("当前最长借阅天数为%d\n", DDLTime);
+		printf("修改为：");
+		scanf("%d", &DDLTime);
+		printf("修改成功！\n");
+		break;
+	}
+	case 2: {
+		printf("当前罚款倍率为%g （罚款金额 = 倍率 * 书本价格 * 借阅超时时间）\n", penalty);
+		printf("修改为：");
+		scanf("%lf", &penalty);
+		printf("修改成功！\n");
+	}
+	}
+}
 
 /*
 *@method: 管理员登录主函数
@@ -156,7 +190,7 @@ void loginInitAdmin(char* ID,PNode List,pPersonNode studentList) {
 			char ID[MAX];
 			printf("请输入学生ID：\n");
 			scanf("%s", ID);
-			getStudentIndex(ID, studentList);
+			getStudentIndex(ID, studentList,List);
 			break;
 		}
 		case 6: { //查看所有学生信息
@@ -166,7 +200,7 @@ void loginInitAdmin(char* ID,PNode List,pPersonNode studentList) {
 			}
 			else {
 				while (p != NULL) {
-					printStudent(p->person);
+					printPerson(p->person,List);
 					p = p->next;
 				}
 			}
@@ -183,7 +217,11 @@ void loginInitAdmin(char* ID,PNode List,pPersonNode studentList) {
 			printAdmin(&Admin);
 			break;
 		}
-		case 9: {	//登出系统
+		case 9: {  //设置参数
+			set();
+			break;
+		}
+		case 10: {	//登出系统
 			printf("登出\n");
 			state = LOGOUT;
 			break;
@@ -205,7 +243,7 @@ void loginInitAdmin(char* ID,PNode List,pPersonNode studentList) {
 void loginInit(char* ID,pPersonNode studentList,PNode List) {
 	extern date today;
 	pPersonNode p = studentList->next;
-	while (p->next != NULL && strcmp(p->next->person->ID, ID))
+	while (p != NULL && strcmp(p->person->ID, ID))
 		p = p->next;
 		printf("学生%s登录成功!\n", p->person->name);
 	state = LOGINSTU;
@@ -262,7 +300,7 @@ void loginInit(char* ID,pPersonNode studentList,PNode List) {
 			break;
 		}
 		case 4:		//查看个人资料
-			printPerson(p->person);
+			printPerson(p->person,List);
 			break;
 		case 5:		//登出系统
 			printf("登出\n");
@@ -284,9 +322,10 @@ void loginInit(char* ID,pPersonNode studentList,PNode List) {
 */
 void Init() {
 	extern date today;
+	extern int DDLTime;
+	extern double penalty;
 	PNode head = intializeProgram();
 	pPersonNode studentHead = intializeStudentSystem();
-	intializeOvertimeBook(studentHead);
 	printf("初始化日期系统\n");
 	printf("年：");
 	scanf("%d",&today.year);
@@ -308,6 +347,14 @@ void Init() {
 	}
 	printf("%d,%d,%d\n", today.year, today.month, today.day);
 	printf("日期系统初始化完成！\n");
+	printf("请初始化最长借阅天数：");
+	scanf("%d", &DDLTime);
+	printf("请初始化罚款倍率：（罚款金额 = 倍率 * 书本价格 * 借阅超时时间）\n");
+	scanf("%lf", &penalty);
+	printf("系统参数初始化成功！\n");
+	studentBookDDL(studentHead);
+	printf("欢迎使用“608-Library”！！！\n");
+	printf("-------------------------------------------\n"); Sleep(10);
 	int mode;
 	char ID[MAX];
 	char password[MAX];
@@ -380,7 +427,7 @@ void Init() {
 			printAuthor();
 			break;
 		case 5: //退出程序
-			closeProgram(head,studentHead);
+			closeProgram(head, studentHead);
 			state = EXIT;
 			break;
 		default:

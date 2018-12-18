@@ -1,11 +1,17 @@
 ﻿#pragma once
-#include"GLOBAL.h"
+#include<malloc.h>
+#include<stdio.h>
+#include <string.h>
+#include<stdlib.h>
+#include<Windows.h>
+#include "GLOBAL.h"
+#include "Date.h"
 
 typedef struct Info {
 	char ID[MAX];
 	int index;
 	bool available;
-	date borrowDate;
+	struct date borrowDate;
 }*pInfo, Info;
 
 typedef struct BookTotal {
@@ -246,6 +252,13 @@ void Delete(PNode List,char* ID) {
 	while (p->next != NULL && strcmp(p->next->book->ID,ID)!=0) {
 		p = p->next;
 	}
+	if (p->next == NULL) {
+		printf("\n-------------------------------------------\n"); Sleep(10);
+		printf("没有这本书！！！\n"); Sleep(10);
+		printf("(；′⌒`)  (；′⌒`)  (；′⌒`)\n"); Sleep(10);
+		printf("-------------------------------------------\n"); Sleep(10);
+		return;
+	}
 	printBook(p->next->book);
 	printf("确认删除？\n");
 	printf("1.是 2.否\n");
@@ -256,7 +269,6 @@ void Delete(PNode List,char* ID) {
 		p = p->next;
 		tmp->next = p->next;
 		free(p->book);
-		free(p);
 		printf("图书删除成功!\n");
 	}
 	else
@@ -273,7 +285,6 @@ void Clear(PNode List) {
 	while (p->next != NULL) {
 		tmp = p->next;
 		free(p->book);
-		free(p);
 		p = tmp;
 	}
 	printf("应用内存清理完成\n");

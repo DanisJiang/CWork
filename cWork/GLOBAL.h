@@ -1,5 +1,5 @@
 #pragma once
-
+#include"Date.h"
 /*全局变量及宏定义*/
 
 
@@ -26,14 +26,17 @@ typedef enum TYPE{  //图书种类枚举
 	BOOK,PERIODICAL,PRESS
 }TYPE;
 
-
-typedef struct date
-{
-	int year;
-	int month;
-	int day;
+/*
+日期
+*/
+struct tm {
+	int tm_mday;      /* 一个月中的日期 - 取值区间为[1,31] */
+	int tm_mon;       /* 月份（从一月开始，0代表一月） - 取值区间为[0,11] */
+	int tm_year;      /* 年份，其值等于实际年份减去1900 */
+	int tm_yday;	  /* 从每年的1月1日开始的天数 – 取值区间为[0,365]，其中0代表1月1日，1代表1月2日，以此类推 */
 };
 
-extern int bookID = 0; 
-extern date today;
-extern int borrowDDL = 30;
+int bookID = 0; 
+date today;
+int DDLTime;
+double penalty;

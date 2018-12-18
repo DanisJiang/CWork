@@ -1,4 +1,13 @@
 #pragma once
+#include<malloc.h>
+#include<stdio.h>
+#include <string.h>
+#include<stdlib.h>
+#include"userlist.h"
+#include "List.h"
+#include "GLOBAL.h"
+#include"Date.h"
+
 
 
 //管理员信息
@@ -65,13 +74,36 @@ void printAdmin(Admin* Admin) {
 *@return:
 *@others:
 */
-void printPerson(pPerson person) {
+void printPerson(pPerson person,PNode List) {
+	extern double penalty;
+	extern int DDLTime;
+	double money = 0;
 	printf("-----------------------------\n");
 	printf("ID:%3s\n", person->ID);
 	printf("姓名:%3s\n", person->name);
 	printf("已借阅书本:%3d\n", person->count);
 	printf("可借阅书本:%3d\n", BORROW - person->count);
 	printf("借阅超时书本:%3d\n", person->overTime);
+	printf("-----------------------------\n");
+	for (int i = 0; i < BORROW; i++) {
+		if (person->borrowBook[i].DDL == 1) {
+			printf("超时书本ID：%s\n", person->borrowBook[i].ID);
+			printf("借阅时间：%d/%d/%d\n", person->borrowBook[i].borrowTime.year, person->borrowBook[i].borrowTime.month, person->borrowBook[i].borrowTime.day);
+			PNode p = List->next;
+			while (p != NULL) {
+				if (strcmp(person->borrowBook[i].ID, p->book->ID) == 0) {
+					money = p->book->price*penalty*(dateDiff(person->borrowBook[i].borrowTime, today) - DDLTime);
+					printf("需罚款：%g\n", money);
+					break;
+				}
+			}
+		}
+		else if (person->borrowBook[i].borrowTime.year != 0)
+		{
+			printf("未超时书本ID:%s\n", person->borrowBook[i].ID);
+			printf("借阅时间：%d/%d/%d\n", person->borrowBook[i].borrowTime.year, person->borrowBook[i].borrowTime.month, person->borrowBook[i].borrowTime.day);
+		}
+	}
 	printf("------------------------------\n");
 }
 /*
@@ -164,6 +196,7 @@ void Borrow(pPerson person, pBook book) {
 	}
 	strcpy(person->borrowBook[k].ID, book->ID);
 	person->borrowBook[k].borrowTime = today;
+	person->borrowBook[k].DDL = 0;
 	book->left--;
 	book->total++;
 	int t = book->count - book->left;
@@ -173,11 +206,12 @@ void Borrow(pPerson person, pBook book) {
 			strcpy(book->info[i].ID, person->ID);
 			book->info[i].available = false;
 			book->info[i].borrowDate = today;
-			break;
+			person->count++;
+			printf("借阅成功,书本剩余%d\n", book->left);
+			return;
 		}
 	}
-	person->count++;
-	printf("借阅成功,书本剩余%d\n", book->left);
+	printf("借书失败！\n");
 }
 
 
@@ -189,6 +223,13 @@ void Borrow(pPerson person, pBook book) {
 */
 bool returnBook(pPerson person, char ID[MAX], PNode bookList) {
 	pBook book = SearchBook(bookList, ID);
+	if (book == NULL) {
+		printf("\n-------------------------------------------\n"); Sleep(10);
+		printf("没有这本书！！！\n"); Sleep(10);
+		printf("(；′⌒`)  (；′⌒`)  (；′⌒`)\n"); Sleep(10);
+		printf("-------------------------------------------\n"); Sleep(10);
+		return false;
+	}
 	int i = 0;
 	while (strcmp(book->info[i].ID, person->ID)) {
 		i++;
@@ -197,7 +238,6 @@ bool returnBook(pPerson person, char ID[MAX], PNode bookList) {
 			return false;
 		}
 	}
-	i--;
 	book->info[i].available = true;
 	strcpy(book->info[i].ID, "0");
 	book->info[i].borrowDate.year = 0;
@@ -209,6 +249,8 @@ bool returnBook(pPerson person, char ID[MAX], PNode bookList) {
 	while (strcmp(person->borrowBook[k].ID, ID)) {
 		k++;
 	}
+	if (person->borrowBook[k].DDL == 1)
+		printf("图书借阅超时！需要罚款——%g 元\n", book->price*penalty*(dateDiff(person->borrowBook[i].borrowTime, today) - DDLTime));
 	person->borrowBook[k].borrowTime = { 0,0,0 };
 	strcpy(person->borrowBook[k].ID, "0");
 	return true;

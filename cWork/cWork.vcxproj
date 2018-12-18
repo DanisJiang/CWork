@@ -158,6 +158,8 @@
     <ClInclude Include="init.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="userlist.h" />

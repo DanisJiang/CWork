@@ -1,26 +1,12 @@
 #pragma once
 
-
-/*
-*@method: 搜索学生函数
-*@param: studentList:待搜索的链表;ID:待搜索学生的ID
-*@return: 搜索到的学生节点
-*@others:
-*/
-void intializeOvertimeBook(pPersonNode head) {
-	extern int borrowDDL;
-	pPersonNode p = head->next;
-	while (p != NULL) {
-		int i = 0;
-		while (i<BORROW&&(strcmp(p->person->borrowBook[i].ID,"0"))!=0) {
-			if (borrowDDL < dateDiff(p->person->borrowBook[i].borrowTime, today)) {
-				p->person->overTime++;
-				p->person->borrowBook[i].DDL = 1;
-			}
-		}
-		p = p->next;
-	}
-}
+#include <stdio.h>
+struct date
+{
+	int year;
+	int month;
+	int day;
+};
 /*int main(void)
 {
 	int isPrime(int year);
